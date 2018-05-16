@@ -1,0 +1,41 @@
+{
+	"main.html": {
+		"refer": [
+			"setting.html"
+		]
+	},
+	"login.html": {
+		"refer": [
+			"main.html"
+		]
+	},
+	"index.html": {
+		"refer": [
+			"src/login/login.html",
+			"src/main/main.html"
+		]
+	},
+	"src/login/login.html": {
+		"refer": [
+			"src/./main/main.html"
+		]
+	},
+	"src/main/main.html": {
+		"refer": [
+			"src/./login/forget_password.html",
+			"src/./recomm/recomm.html",
+			"src/recomm/recomm.html",
+			"src/./me/me.html",
+			"src/./component/component.html",
+			"src/./plugin/plugin.html",
+			"src/main/list.html",
+			"src/./newsDetail/newsDetail.html"
+		],
+		"resources": [
+			"src/./recomm/recomm.html",
+			"src/recomm/recomm.html",
+			"src/main/list.html",
+			"src/./component/component.html"
+		]
+	}
+}

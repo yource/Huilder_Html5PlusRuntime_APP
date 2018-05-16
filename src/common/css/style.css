@@ -1,0 +1,112 @@
+/** iconfont字体图标 **/
+
+@font-face {
+	font-family: "iconfont";
+	src: url('iconfont.ttf') format('truetype')
+}
+
+.iconfont {
+	font-family: "iconfont" !important;
+	font-size: 22px;
+	font-style: normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-tuijianliebiao:before { content: "\e63c"; }
+
+.icon-yanjing:before { content: "\e661"; }
+
+.icon-ai54:before { content: "\e6ac"; }
+
+.icon-Password:before { content: "\e62c"; }
+
+.icon-yonghu:before { content: "\e636"; }
+
+.icon-yonghuxinxi:before { content: "\e7df"; }
+
+.icon-yonghutouxiang:before { content: "\e602"; }
+
+.icon-guanbi2:before { content: "\e620"; }
+
+.icon-yanjing-bi:before { content: "\e61e"; }
+
+.icon-icon-test:before { content: "\e60c"; }
+
+.icon-guanbi3:before { content: "\e654"; }
+
+.icon-icon-test1:before { content: "\e603"; }
+
+.icon-yonghuguanli:before { content: "\e613"; }
+
+.icon-yonghu1:before { content: "\e671"; }
+
+.icon-tianjiazujian:before { content: "\e62a"; }
+
+.icon-shezhizujian:before { content: "\e630"; }
+
+.icon-close-eye:before { content: "\e79c"; }
+
+.icon-kuozhan:before { content: "\e612"; }
+
+body {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	background: #f3f4f6;
+	font-size: 16px;
+}
+
+.mui-btn-primary {
+	width: 100%;
+	border: 1px solid #ff9600;
+	background-color: #ff9600;
+	font-size: 16px;
+}
+
+.mui-btn-blue.mui-active:enabled,
+.mui-btn-blue:enabled:active,
+.mui-btn-primary.mui-active:enabled,
+.mui-btn-primary:enabled:active,
+input[type=submit].mui-active:enabled,
+input[type=submit]:enabled:active {
+	border: 1px solid #ff6700;
+	background-color: #ff6700;
+}
+
+::-webkit-input-placeholder {
+	color: #cdcddd;
+	font-size: 15px;
+}
+
+.mui-checkbox input[type=checkbox]:before,
+.mui-radio input[type=radio]:before {
+	font-size: 22px;
+	line-height: 1.35;
+}
+
+.formRow {
+	display: -webkit-box;
+	-webkit-box-align: center;
+	height: 40px;
+	line-height: 40px;
+	vertical-align: middle;
+	padding:0 4px;
+}
+
+.formRow>* {
+	display: block;
+}
+
+.formRow>input {
+	margin:0;
+	padding: 0 6px 0 12px;
+	-webkit-box-flex: 1;
+}
+
+ul,li{
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}

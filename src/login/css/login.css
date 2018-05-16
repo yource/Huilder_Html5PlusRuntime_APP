@@ -1,0 +1,74 @@
+#loginBg {
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+
+body {
+	background: #fff;
+}
+
+#loginCon {
+	margin: 20px 20px 0;
+	position: relative;
+	border-radius: 10px;
+	background: #fff;
+}
+.logo{
+	width: 100px;
+	display: block;
+	margin: 60px auto 0;
+}
+.loginForm{
+	margin-top: 60px;
+}
+.formRow {
+	border-bottom: 1px solid #dedede;
+	margin-bottom: 18px;
+	background: #fff;
+}
+
+.formRow>input {
+	border: none;
+	background: none;
+}
+
+.formRow>span {
+	color: #999;
+	font-size: 20px;
+}
+
+.formRow>span:first-child {
+	color: #414148;
+	font-size: 22px;
+}
+.formGroup .other{
+	display: -webkit-box;
+	-webkit-box-pack: justify;
+	font-size: 13px;
+	line-height: 50px;
+}
+.formGroup .other span{
+	display: block;
+	color: #6a6a71;
+}
+.formGroup .other span:last-child{
+	color:#ff9600;
+}
+.mui-btn-primary {
+	display: block;
+	width: 94%;
+	height: 40px;
+	line-height: 40px;
+	padding-top: 0;
+	margin:10px auto 0;
+	font-size: 18px;
+	background: linear-gradient(#ff6700,#ff8100);
+}
+
+.thirdLogin {
+	margin-top: 80px;
+	color: #ccc;
+}

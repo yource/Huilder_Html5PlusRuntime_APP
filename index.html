@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>启动页</title>
+	</head>
+		<script src="src/common/js/common.js"></script>
+		<script src="src/common/js/router.js"></script>
+		<script type="text/javascript">
+			if(window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener("plusready", function() {
+//					plus.webview.open("src/main/main.html", "main", {"popGesture": "none"});
+					var state = storage.get("state");
+					if(state.autoLogin && state.token) {
+						// 有登录信息，进入主页
+						plus.webview.open("src/main/main.html", "main", {"popGesture": "none"});
+					} else {
+						// 进入登录页面
+						plus.webview.open("src/login/login.html", "login", {"popGesture": "none"});
+					}
+				}, false);
+			}
+		</script>
+	</body>
+
+</html>

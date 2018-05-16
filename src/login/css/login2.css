@@ -1,0 +1,16 @@
+body{
+	background: url(../../../static/images/loginBg2.jpg) no-repeat;
+	background-size: cover;
+	background-position: center;
+}
+.loginCon{
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,calc( -50% - 30px ));
+	width: 320px;
+	height: 224px;
+	background: rgba(255,255,255,0.85);
+	border:1px solid #b3d7fd;
+	border-radius: 10px;
+}

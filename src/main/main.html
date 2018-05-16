@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>主页</title>
+		<link href="../../libs/mui/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../libs/mint-ui/style.min.css" />
+		<link href="../common/css/style.css" rel="stylesheet" />
+		<link href="css/main.css" rel="stylesheet" />
+		<style>
+			.loading {
+				height: 300px;
+				background: url(../common/images/colorful-loading.svg) no-repeat center;
+				background-size: 60px;
+			}
+			
+			.head{
+				height: 32px;
+				background: #ffbc00;
+				color: #fff;
+				padding: 0 12px;
+				line-height: 32px;
+			}
+			
+			.pageInfo {
+				margin: 20px 12px 0;
+				padding: 8px 10px;
+				font-size: 14px;
+				line-height: 28px;
+				text-indent: 2em;
+				background: #fff;
+				border-radius: 6px;
+				border: 1px solid rgba(0, 0, 0, 0.06);
+			}
+			
+			.section {
+				background: #FFF;
+				margin-top: 20px;
+				padding: 10px;
+			}
+			
+			.section .title {
+				height: 16px;
+				line-height: 16px;
+				font-size: 14px;
+				padding-left: 5px;
+				border-left: 3px solid #ff6700;
+				margin-left: 10px;
+				margin-bottom: 10px;
+			}
+			
+			.section .title span {
+				color: #ababab;
+				font-size: 12px;
+				float: right;
+			}
+			
+			.mint-swipe-items-wrap {
+				background: #fff url(../common/images/colorful-loading.svg) no-repeat center;
+				background-size: 60px;
+			}
+			
+			.mint-swipe-indicators {
+				bottom: 3px;
+				right: 10px;
+				left: auto;
+				transform: translateX(0);
+				-webkit-transform: translateX(0);
+			}
+			
+			.mint-swipe-indicator {
+				opacity: 0.35
+			}
+			
+			.mint-swipe-item img {
+				height: 100%;
+				width: 100%;
+			}
+			
+			.mint-tabbar {
+				background: none;
+				background-color: #fff;
+				height: 45px;
+				border-top: 1px solid rgba(0, 0, 0, 0.1);
+			}
+			
+			.mint-tabbar>.mint-tab-item.is-selected {
+				color: #ff6700;
+				background: none;
+			}
+			
+			.mint-tab-item {
+				padding: 0;
+				color: #525c67;
+			}
+			
+			.mint-tab-item-icon {
+				width: 20px;
+				height: 20px;
+				margin-top: 6px;
+				margin-bottom: 3px;
+			}
+			
+			.mint-tab-item-icon .iconfont {
+				font-size: 18px;
+			}
+			
+			.mint-tabbar {
+				position: fixed;
+				z-index: 99;
+			}
+			
+			.listview {
+				margin-top: 20px;
+				padding: 0 10px;
+				background: #fff;
+			}
+			
+			.listview li {
+				padding: 15px 0;
+				border-bottom: 1px solid #efefef;
+				display: -webkit-box;
+			}
+			
+			.listview-left {
+				width: 120px;
+				height: 90px;
+				background: url(../common/images/colorful-loading.svg) no-repeat center;
+				background-size: 45px;
+				margin-right: 15px;
+			}
+			
+			.listview-left img {
+				width: 100%;
+				height: 100%;
+			}
+			
+			.listview-right {
+				-webkit-box-flex: 1;
+				font-size: 15px;
+				line-height: 24px;
+			}
+			
+			.listview-top {
+				height: 75px;
+			}
+			
+			.listview-bottom {
+				height: 15px;
+				line-height: 15px;
+				font-size: 12px;
+			}
+			
+			.listview-bottom .author {
+				float: left;
+				color: #f96f38;
+			}
+			
+			.listview-bottom .time {
+				float: right;
+				color: #9099a2;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="head">
+			H5 PLUS
+		</div>
+		<div id="main">
+			<mt-tab-container v-model="tab">
+				<!----- tab1：第一个tab页 ----->
+				<mt-tab-container-item id="tab1">
+					<!--轮播banner-->
+					<mt-swipe :auto="2000" v-bind:style="{height:tab1.bannerHeight+'px'}">
+						<mt-swipe-item v-for="item in tab1.banner" :key="item.id">
+							<img :src="item.picUrl" @click="bannerClick(item.linkUrl)">
+						</mt-swipe-item>
+					</mt-swipe>
+					<!--轮播banner 结束-->
+
+					<!--图文列表-->
+					<ul class="listview">
+						<li v-for="item in tab1.news" @tap="toNewsDetail(item)">
+							<div class="listview-left">
+								<img :src="item.cover">
+							</div>
+							<div class="listview-right">
+								<div class="listview-top">
+									<div class="mui-ellipsis-2">{{item.title}}</div>
+								</div>
+								<div class="listview-bottom">
+									<div class="author">{{item.author}}</div>
+									<div class="time">{{item.time}}</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<!--图文列表 结束-->
+
+				</mt-tab-container-item>
+
+				<!----- tab2 ----->
+				<mt-tab-container-item id="tab2">
+					<div class="pageInfo">
+						基于前端技术和Html5+ SDK 搭建的多页面app，多webview的窗口管理模式，可以调用各系统和第三方API，包括原生UI、摄像头和照片、第三方登陆和支付等等
+					</div>
+
+				</mt-tab-container-item>
+
+				<!----- tab3 ----->
+				<mt-tab-container-item id="tab3">3</mt-tab-container-item>
+
+				<!----- tab4 ----->
+				<mt-tab-container-item id="tab4">4</mt-tab-container-item>
+			</mt-tab-container>
+			<mt-tabbar v-model="tab">
+				<mt-tab-item id="tab1">
+					<span slot="icon" class="mui-icon iconfont icon-tuijianliebiao"></span>发现
+				</mt-tab-item>
+				<mt-tab-item id="tab2">
+					<span slot="icon" class="mui-icon iconfont icon-icon-test1"></span>组件
+				</mt-tab-item>
+				<mt-tab-item id="tab3">
+					<span slot="icon" class="mui-icon iconfont icon-kuozhan"></span>扩展
+				</mt-tab-item>
+				<mt-tab-item id="tab4">
+					<span slot="icon" class="mui-icon iconfont icon-yonghutouxiang"></span>我的
+				</mt-tab-item>
+			</mt-tabbar>
+		</div>
+		<script src="../../libs/mui/mui.js"></script>
+		<script src="../../libs/vue/vue.js"></script>
+		<script src="../../libs/mint-ui/index.js"></script>
+		<script src="../common/js/common.js"></script>
+		<script src="../common/js/router.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			var newsDetailWebview = titleNView = null;
+			var $main = new Vue({
+				el: "#main",
+				data: {
+					tab: "tab1",
+					tab1: {
+						initFlag: false,
+						bannerHeight: 150,
+						banner: [],
+						news: []
+					},
+					tab2: {
+
+					}
+				},
+				created() {
+					this.tab1.bannerHeight = (document.documentElement.clientWidth) / (720 / 288);
+				},
+				mounted() {
+					mui.plusReady(function() {
+						plusReady()
+					});
+				},
+				methods: {
+					bannerClick(url) {
+						router.openURL(url, "最热音乐圈")
+					},
+					toNewsDetail(item) {
+						//触发子窗口变更新闻详情
+						mui.fire(newsDetailWebview, 'get_detail', {
+							guid: item.guid,
+							title: item.title,
+							author: item.author,
+							time: item.time,
+							cover: item.cover
+						});
+
+						//更改详情页原生导航条信息
+						titleNView.titleText = item.title;
+						newsDetailWebview.setStyle({
+							"titleNView": titleNView
+						});
+						setTimeout(function() {
+							plus.webview.show("newsDetail", "slide-in-right", 200)
+						}, 100)
+					}
+				}
+			})
+			// tab1页面初始化方法
+			function init1() {
+				if($main.tab1.initFlag) {
+					return;
+				}
+				$main.tab1.initFlag = true;
+				mui.ajax("https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg", {
+					data: {
+						platform: "h5",
+						needNewCode: 1
+					},
+					crossDomain: true,
+					success: function(response) {
+						$main.tab1.banner = JSON.parse(response).data.slider;
+					}
+				});
+				mui.ajax("http://spider.dcloud.net.cn/api/news", {
+					data: {
+						column: "id,post_id,title,author_name,cover,published_at"
+					},
+					success: function(response) {
+						$main.tab1.news = response.map(function(item) {
+							return {
+								guid: item.post_id,
+								title: item.title,
+								author: item.author_name,
+								cover: item.cover,
+								time: dateUtils.format(item.published_at)
+							}
+						})
+					}
+				})
+			}
+
+			function plusReady() {
+				// 监听自定义事件
+				document.addEventListener('init', function(event) {
+					//获取参数
+					var userId = event.detail.userId;
+					var userName = event.detail.userName;
+					//执行初始化方法
+					init1();
+				})
+				
+				// 预加载详情页
+				titleNView = { //详情页原生导航配置
+					backgroundColor: '#f7f7f7', //导航栏背景色
+					titleText: '', //导航栏标题
+					titleColor: '#000000', //文字颜色
+					type: 'transparent', //透明渐变样式
+					autoBackButton: true, //自动绘制返回箭头
+					splitLine: { //底部分割线
+						color: '#cccccc'
+					}
+				}
+				router.newsDetail.styles.titleNView = titleNView;
+				newsDetailWebview = router.create(router.newsDetail);
+				
+				// 监听安卓返回键
+				var backButtonPress = 0;
+				mui.back = function(event) {
+					if($main.tab != "tab1") {
+						$main.tab = "tab1";
+						return false;
+					} else {
+						// 切换到后台运行
+						var main = plus.android.runtimeMainActivity();
+						main.moveTaskToBack(false);
+					}
+				};
+			}
+		</script>
+	</body>
+
+</html>
