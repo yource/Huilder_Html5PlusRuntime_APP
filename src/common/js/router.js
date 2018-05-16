@@ -1,6 +1,10 @@
 /**
  * 定义页面路由及打开方法
- * router.open(router.name)
+ * aniShow: 页面显示动画
+ * duration: 页面动画时间
+ * styles: 页面样式对象
+ * noReturn: 是否可以回退
+ * close: 页面回退后是否close，默认hide
  **/
 (function(router) {
 	//首页-底部tabBar
@@ -13,7 +17,7 @@
 			popGesture: "none",
 			transform: "ease-out"
 		},
-		noReturn: true, //不可回退
+		noReturn: true //不可回退
 	}
 
 	router.newsDetail = {
@@ -36,22 +40,23 @@
 	 * 通过router.open打开的页面，默认开启右滑返回
 	 * 页面退出后，默认hide
 	 */
-	router.open = function(name) {
-		var id = name.id,
-			url = name.url,
-			styles = name.styles || {},
-			aniShow = name.aniShow || "slide-in-right",
-			duration = name.duration || 200,
-			showedCB = name.showedCB; //显示之后的回调函数
+	router.open = function(page) {
+		var id = page.id,
+			url = page.url,
+			styles = page.styles || {},
+			aniShow = page.aniShow || "slide-in-right",
+			duration = page.duration || 200,
+			showedCB = page.showedCB; //显示之后的回调函数
 		styles.plusrequire = "ahead";
-		styles.backButtonAutoControl = name.close ? "close" : "hide";
-		styles.errorPage = ".././erro/error.html";
-		if(plus.os.name == "iOS" && !name.noReturn) {
-			styles.popGesture = styles.popGesture || name.close ? "close" : "hide"; //右滑关闭默认开启
+        styles.scrollIndicator = "none";
+		styles.backButtonAutoControl = page.close ? "close" : "hide";
+		styles.errorPage = "../../erro/error.html";
+		if(plus.os.name == "iOS" && !page.noReturn) {
+			styles.popGesture = styles.popGesture || page.close ? "close" : "hide"; //右滑关闭默认开启
 		}
 		var curWebview = plus.webview.currentWebview();
 		var newWebview = plus.webview.open(url, id, styles, aniShow, duration, showedCB);
-		if(plus.os.name == "Android" && !name.noReturn) {
+		if(plus.os.name == "Android" && !page.noReturn) {
 			newWebview.drag({
 				direction: 'right',
 				moveMode: 'followFinger'
@@ -60,7 +65,7 @@
 				moveMode: 'silent'
 			}, function(e) {
 				if(e.type == 'end' && e.result) {
-					if(name.close) {
+					if(page.close) {
 						plus.webview.close(newWebview);
 					} else {
 						plus.webview.hide(newWebview);
@@ -74,19 +79,17 @@
 	/**
 	 * 用于预加载页面
 	 */
-	router.create = function(name) {
-		var id = name.id,
-			url = name.url,
-			styles = name.styles || {};
+	router.create = function(page) {
+		var styles = page.styles || {};
 		styles.plusrequire = "ahead";
-		styles.backButtonAutoControl = name.close ? "close" : "hide";
-		styles.errorPage = ".././erro/error.html";
-		if(plus.os.name == "iOS" && !name.noReturn) {
-			styles.popGesture = styles.popGesture || name.close ? "close" : "hide"; //右滑关闭默认开启
+        styles.scrollIndicator = "none";
+		styles.backButtonAutoControl = page.close ? "close" : "hide";
+		if(plus.os.name == "iOS" && !page.noReturn) {
+			styles.popGesture = styles.popGesture || page.close ? "close" : "hide"; //右滑关闭默认开启
 		}
 		var curWebview = plus.webview.currentWebview();
-		var newWebview = plus.webview.create(url, id, styles);
-		if(plus.os.name == "Android" && !name.noReturn) {
+		var newWebview = plus.webview.create(page.url, page.id, styles);
+		if(plus.os.name == "Android" && !page.noReturn) {
 			newWebview.drag({
 				direction: 'right',
 				moveMode: 'followFinger'
@@ -95,7 +98,7 @@
 				moveMode: 'silent'
 			}, function(e) {
 				if(e.type == 'end' && e.result) {
-					if(name.close) {
+					if(page.close) {
 						plus.webview.close(newWebview);
 					} else {
 						plus.webview.hide(newWebview);
@@ -110,21 +113,21 @@
 	/**
 	 * 显示create创建的页面
 	 */
-	router.show = function(name){
-		var aniShow = name.aniShow || "slide-in-right",
-			duration = name.duration || 200,
-			showedCB = name.showedCB; //显示之后的回调函数
-		plus.webview.show(name.id,aniShow,duration,showedCB)
+	router.show = function(page){
+		var aniShow = page.aniShow || "slide-in-right",
+			duration = page.duration || 200,
+			showedCB = page.showedCB; //显示之后的回调函数
+		plus.webview.show(page.id,aniShow,duration,showedCB)
 	}
 	
 	/**
 	 * 打开网络页面
 	 */
-	router.openURL = function(url, title, showedCB) {
+	router.openURL = function(url, title) {
 		var id = url;
 		var styles = {
-			errorPage: ".././erro/error.html",
-			backButtonAutoControl: "close"
+			backButtonAutoControl: "close",
+			popGesture:"close"
 		};
 		if(title) {
 			styles.titleNView = {
@@ -143,13 +146,10 @@
 				titleSize: "16px"
 			}
 		}
-		if(plus.os.name == "iOS" && !name.noReturn) {
-			styles.popGesture = styles.popGesture || name.close ? "close" : "hide"; //右滑关闭默认开启
-		}
 		var aniShow = "slide-in-right";
 		var duration = 200;
 		var curWebview = plus.webview.currentWebview();
-		var newWebview = plus.webview.open(url, id, styles, aniShow, duration, showedCB);
+		var newWebview = plus.webview.open(url, id, styles, aniShow, duration);
 		if(plus.os.name == "Android") {
 			newWebview.drag({
 				direction: 'right',
@@ -159,11 +159,7 @@
 				moveMode: 'silent'
 			}, function(e) {
 				if(e.type == 'end' && e.result) {
-					if(name.close) {
-						plus.webview.close(newWebview);
-					} else {
-						plus.webview.hide(newWebview);
-					}
+					plus.webview.close(newWebview);
 				}
 			});
 		}

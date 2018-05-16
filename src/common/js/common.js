@@ -4,13 +4,13 @@
  * storage.get(name)
  **/
 (function(storage) {
+	storage.state = JSON.parse(localStorage.getItem("state"));
 	storage.set = function(name, cfg) {
 		if(!name || !cfg || typeof(name) != "string") {
 			console.log("错误：storage设置错误");
 			return;
 		}
-		var stateText = cfg;
-		localStorage.setItem(name, JSON.stringify(state));
+		localStorage.setItem(name, JSON.stringify(cfg));
 	};
 	storage.get = function(name) {
 		if(!name) {
@@ -57,60 +57,6 @@
 		}
 	}
 })(window.storage = {});
-
-/**
- * 封装原生的信息提示
- * toast.show( message, {duration, icon, style} );
- **/
-(function(toast) {
-	//纯文字提示，自动消失：toast.text("请输入密码")
-	toast.text = function(text) {
-		option = {
-			verticalAlign: "center",
-			color: "#fff",
-			loading: {
-				display: "none",
-			},
-			modal: false,
-			padlock: true
-		};
-		var ts = plus.nativeUI.showWaiting(text, option);
-		setTimeout(function() {
-			ts.close();
-		}, 1800)
-	};
-	//带图标的提示框，自动关闭 ： toast.icon("操作成功","../images/icon/icon-tick.png")
-	toast.icon = function(text, icon) {
-		if(!icon) {
-			console.log("错误：缺少icon地址");
-			return;
-		}
-		option = {
-			color: "#fff",
-			padding: "8px",
-			loading: {
-				display: "block",
-				height: "30px",
-				icon: icon
-			},
-			modal: false,
-			padlock: true
-		};
-		var iconts = plus.nativeUI.showWaiting(text, option);
-		setTimeout(function() {
-			iconts.close();
-		}, 1800)
-	}
-	//等待框，可调用close关闭：var wt=toast.wait();wt.close();
-	toast.wait = function() {
-		return plus.nativeUI.showWaiting();
-	};
-	//统一close方法
-	toast.close = function() {
-		plus.nativeUI.closeToast();
-		plus.nativeUI.closeWaiting();
-	}
-})(window.toast = {});
 
 /**
  * ajax方法，统一处理请求错误
@@ -198,3 +144,15 @@
 	};
 	window.dateUtils = util;
 })(window);
+
+
+// noNet()获取当前网络状况
+(function(window){
+    window.noNet = function(){
+        if(window.plus){
+            return plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE;
+        }else{
+            return false;
+        }
+    }
+})(window)

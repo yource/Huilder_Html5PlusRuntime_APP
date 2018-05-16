@@ -7,59 +7,44 @@ var $login = new Vue({
 		showPwd: false,
 		showClean: false
 	},
-	mounted() {
+	mounted:function() {
 		mui.init();
 		mui.plusReady(function() {
 			pageReady();
 		})
 	},
 	methods: {
-		loginSubmit() {
-			//校验
+		loginSubmit:function() {
 			if(!this.username) {
-				toast.text('请输入用户名');
+				mui.toast('请输入用户名') 
 				return;
 			}
 			if(!this.password) {
-				toast.text('请输入密码');
+				mui.toast('请输入密码') 
 				return;
 			}
-			toast.wait();
-			//			ajax({
-			//				url: "login",
-			//				data: {
-			//					username: this.username,
-			//					password: this.password
-			//				},
-			//				success: function(data) {
-			//					toast.close();
-			//					router.open(router.main)
-			//				}
-			//			})
-			var that = this;
+			mui.toast("",{type:"wait"})
 			setTimeout(function() {
-				if(that.username == "yource" && that.password == "1") {
-					toast.close();
+			    mui.closePopups();
+				if($login.username == "yource" && $login.password == "1") {
 					//触发主页面初始化方法
 					mui.fire(mainWebview, "init", {
 						userId: 12345,
 						userName: "yource"
 					})
-					//显示主页面
 					router.show(router.main)
 				} else {
-					toast.close();
-					toast.text('登录失败');
+					mui.toast('登录失败');
 				}
 			}, 300)
 		},
-		toRegister() {
+		toRegister:function() {
 			router.open(router.register)
 		},
-		toForgetpwd() {
+		toForgetpwd:function() {
 			router.open(router.forgetPassword)
 		},
-		cleanInput() {
+		cleanInput:function() {
 			this.username = "";
 			this.password = "";
 			document.querySelector("#username").focus();

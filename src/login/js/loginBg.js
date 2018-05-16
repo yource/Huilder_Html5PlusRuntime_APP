@@ -7,7 +7,6 @@
 	"232,103,255","255,227,26","255,180,36","255,126,22","255,133,64"];
     // Main
     initHeader();
-    addListeners();
 
     function initHeader() {
         width = window.innerWidth;

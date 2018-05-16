@@ -7361,16 +7361,15 @@ Function.prototype.bind = Function.prototype.bind || function(to) {
 
 		//计算显示时间
 		 options = $.extend({
-	        duration: 'short',
-	        width:100,
+	        duration: 'short'
 	    }, options || {});
 
 
 		if(options.type=="wait"){
 			var toast = document.createElement('div');
 			toast.classList.add('mui-toast-container');
-			var iconWidth = oldOptions.width?oldOptions.width:64;
-			toast.innerHTML = '<div style="width:'+iconWidth+'px;height:'+iconWidth+'px;line-height:67px" class="' + 'mui-toast-message' + '">' + '<span class="'+"mui-spinner mui-spinner-white"+'"></span> '+ '</div>';
+			toast.classList.add('wait');
+			toast.innerHTML = '<div class="mui-toast-message">' + '<span class="'+"mui-spinner mui-spinner-white"+'"></span> '+ '</div>';
 			toast.addEventListener('webkitTransitionEnd', function() {
 				if (!toast.classList.contains(CLASS_ACTIVE)) {
 					toast.parentNode.removeChild(toast);
@@ -7395,7 +7394,7 @@ Function.prototype.bind = Function.prototype.bind || function(to) {
 		    }
 			var toast = document.createElement('div');
 			toast.classList.add('mui-toast-container');
-			toast.innerHTML = '<div style="'+"width:"+options.width+"px"+'" class="' + 'mui-toast-message' + '">' + message + '</div>';
+			toast.innerHTML = '<div class="mui-toast-message">' + message + '</div>';
 			toast.addEventListener('webkitTransitionEnd', function() {
 				if (!toast.classList.contains(CLASS_ACTIVE)) {
 					toast.parentNode.removeChild(toast);
@@ -7418,7 +7417,6 @@ Function.prototype.bind = Function.prototype.bind || function(to) {
 		        isVisible: function() {return !!toast;}
 		    }
 		} else if($.os.plus) {
-			//默认显示在底部
 			$.plusReady(function() {
 				plus.nativeUI.toast(message, {
 					verticalAlign: 'bottom',
@@ -7589,9 +7587,11 @@ Function.prototype.bind = Function.prototype.bind || function(to) {
             }
         }
         if (!$.os.plus || type === 'div') {
-            return createPopup(createInner(message, title || '提示') + createButtons(btnArray || ['取消', '确认']), callback);
         }
-        return plus.nativeUI.confirm(message, callback, title, btnArray || ['取消', '确认']);
+        if(type=='native'){
+            return plus.nativeUI.confirm(message, callback, title, btnArray || ['取消', '确认']);
+        }
+        return createPopup(createInner(message, title || '提示') + createButtons(btnArray || ['取消', '确认']), callback);
     };
     var createPrompt = function(message, placeholder, title, btnArray, callback, type) {
         if (typeof message === 'undefined') {
@@ -7633,6 +7633,10 @@ Function.prototype.bind = Function.prototype.bind || function(to) {
         }
     };
     var closePopups = function() {
+        if($(".mui-toast-container").length>0){
+            var toast = $(".mui-toast-container")[0];
+            toast.parentNode.removeChild(toast);
+        }
         while (popupStack.length) {
             popupStack[popupStack.length - 1]['close']();
         }
