@@ -6,7 +6,7 @@
 0. [窗口管理：预加载页面，事件触发，滑动返回，nativeUI绘制等](#0)
 1. [弹框：消息提示、确认框、等待框](#1)
 2. [图片轮播](#2)
-3. [操作表，时间日期选择器，多级联动选择器](#3)
+3. [操作选项，时间日期选择器，多级联动选择器](#3)
 4. 懒加载和上拉/下拉刷新
 5. 选项卡页面切换
 6. 索引列表
@@ -85,7 +85,7 @@ router.create创建新窗口，router.show显示已创建的窗口，router.open
     </mt-swipe>
 > 
 ### <a name="3">选择器<a>
-从下方弹出的操作选项，使用mint-ui
+操作选项，使用mint-ui
 > 
     <mt-actionsheet :actions="actionsheet" v-model="showPicker"></mt-actionsheet>
     
@@ -99,6 +99,25 @@ router.create创建新窗口，router.show显示已创建的窗口，router.open
         	method: function () {}
         }]
     }
+>
+一级选择器和多级联动选择器，使用mui的picker插件，参考<a href="http://dev.dcloud.net.cn/mui/ui/#picker" target="_blank">picker文档</a>
 > 
+    var picker = new mui.PopPicker();
+    picker.setData([{value: "first",text: "第一项"},...])
 
+    picker.show(function(SelectedItems) {
+        // SelectedItems是一个数组，是每级的选中项
+        ...
+    })
+> 
+时间日期选择器，使用mui picker插件的dtpicker
+> 
+    var dtPicker = new mui.DtPicker({
+        type: 'time'
+    }); 
+    dtPicker.show(function (selectItems) { 
+        console.log(selectItems.y);//{text: "2016",value: 2016} 
+        console.log(selectItems.m);//{text: "05",value: "05"} 
+    })
+> 
 
