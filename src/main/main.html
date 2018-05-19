@@ -23,6 +23,7 @@
         <mt-tab-container v-model="tab">
             <!----- tab1：第一个tab页 ----->
             <mt-tab-container-item id="tab1">
+
                 <mt-loadmore :bottom-distance="30" bottom-loading-text="" bottom-drop-text="" bottom-pull-text="" :bottom-method="loadBottom"
                     :bottom-all-loaded="tab1.allLoaded" :auto-fill="false" ref="loadmore">
                     <!--轮播banner-->
@@ -71,8 +72,37 @@
                     <mt-actionsheet :actions="tab2.actionsheet" v-model="tab2.showPicker1"></mt-actionsheet>
                 </div>
                 <div class="section">
-                    <div class="title">图表</div>
-                    <div id="chart" v-bind:style="tab2.chartStyle"></div>
+                    <div id="slider" class="mui-slider">
+                        <div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+                            <a class="mui-control-item mui-active" href="#item1mobile">
+                                圆饼图
+                            </a>
+                            <a class="mui-control-item" href="#item2mobile">
+                                折线图
+                            </a>
+                            <a class="mui-control-item" href="#item3mobile">
+                                柱状图
+                            </a>
+                        </div>
+                        <div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
+                        <div class="mui-slider-group">
+                            <div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+                                <div id="chart1" v-bind:style="tab2.chartStyle"></div>
+                            </div>
+                            <div id="item2mobile" class="mui-slider-item mui-control-content">
+                                <div class="loading" v-if="!tab2.chart2init"></div>
+                                <div id="chart2" v-show="tab2.chart2init" v-bind:style="tab2.chartStyle"></div>
+                            </div>
+                            <div id="item3mobile" class="mui-slider-item mui-control-content">
+                                <div class="loading" v-if="!tab2.chart3init"></div>
+                                <div id="chart3" v-show="tab2.chart3init" v-bind:style="tab2.chartStyle"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="title">音频</div>
+                    
                 </div>
 
             </mt-tab-container-item>

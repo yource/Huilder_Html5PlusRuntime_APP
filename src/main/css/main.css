@@ -188,3 +188,27 @@ body{
     overflow-x: hidden;
     overflow-y: scroll;
 }
+.mui-segmented-control.mui-segmented-control-inverted~.mui-slider-progress-bar{
+    background-color: #ff6700;
+}
+.mui-slider-item.mui-control-content{
+    padding-top: 15px;
+}
+.mui-segmented-control .mui-control-item{
+    line-height: 32px;
+    font-size: 14px;
+}
+.mui-slider .mui-segmented-control.mui-segmented-control-inverted~.mui-slider-group .mui-slider-item{
+    border-bottom:none;
+}
+.mui-slider-progress-bar{
+    margin-bottom: -1px;
+}
+
+.mui-segmented-control.mui-segmented-control-inverted .mui-control-item{
+    color: #797e8e;
+}
+
+.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active{
+    color: #000;
+}

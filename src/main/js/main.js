@@ -1,4 +1,4 @@
-var newsDetailWebview = titleNView = myChart = null;
+var newsDetailWebview = titleNView = chart1 = chart2 = chart3 = null;
 var picker2 = new mui.PopPicker();
 picker2.setData([{
         value: 'one',
@@ -63,8 +63,30 @@ function init1() {
 }
 
 function init2() {
-    var myChart = echarts.init(document.getElementById('chart'));
-    var option = {
+    chart1 = echarts.init(document.getElementById('chart1'));
+    showChart1();
+    chart2 = echarts.init(document.getElementById('chart2'));
+    chart3 = echarts.init(document.getElementById('chart3'));
+    
+    setTimeout(function(){
+        document.querySelector("#sliderProgressBar").style.width='33.3%';
+        var myslider = mui('#slider').slider();
+        myslider.refresh();
+    },200)
+    
+    document.getElementById('slider').addEventListener('slide', function(e) {
+    	if (e.detail.slideNumber === 1 && !$main.tab2.chart2init) {
+    		showChart2();
+            $main.tab2.chart2init = true;
+    	} else if (e.detail.slideNumber === 2 && !$main.tab2.chart3init) {
+    		showChart3();
+    		$main.tab2.chart3init = true;
+    	}
+    });
+}
+
+function showChart1(){
+    var option1 = {
         title: {
             text: '用户访问来源',
             subtext: '数据来自YOURCE',
@@ -105,7 +127,125 @@ function init2() {
             }
         }]
     };
-    myChart.setOption(option);
+    chart1.setOption(option1);
+}
+
+function showChart2() {
+    var option2 = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                label: {
+                    backgroundColor: '#6a7985'
+                }
+            }
+        },
+        legend: {
+            data: ['视频广告', '直接访问', '搜索引擎']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: [{
+            type: 'category',
+            boundaryGap: false,
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        }],
+        yAxis: [{
+            type: 'value'
+        }],
+        series: [{
+                name: '视频广告',
+                type: 'line',
+                stack: '总量',
+                areaStyle: {
+                    normal: {}
+                },
+                data: [120, 132, 101, 134, 90, 230, 210]
+            },
+            {
+                name: '直接访问',
+                type: 'line',
+                stack: '总量',
+                areaStyle: {
+                    normal: {}
+                },
+                data: [320, 332, 301, 334, 390, 330, 320]
+            },
+            {
+                name: '搜索引擎',
+                type: 'line',
+                stack: '总量',
+                areaStyle: {
+                    normal: {}
+                },
+                data: [480, 560, 580, 620, 680, 520, 600]
+            }
+        ]
+    };
+    chart2.setOption(option2);
+}
+
+function showChart3() {
+    var option3 = {
+        legend: {
+            data: ['百度', '谷歌', '必应', '其他']
+        },
+        grid: {
+            left: '1%',
+            right: '1%',
+            bottom: '1%',
+            containLabel: true
+        },
+        xAxis: [{
+            type: 'category',
+            data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+        }],
+        yAxis: [{
+            type: 'value'
+        }],
+        series: [{
+                name: '百度',
+                type: 'bar',
+                barWidth: 5,
+                markLine: {
+                    lineStyle: {
+                        normal: {
+                            type: 'dashed'
+                        }
+                    },
+                    data: [
+                        [{
+                            type: 'min'
+                        }, {
+                            type: 'max'
+                        }]
+                    ]
+                },
+                data: [620, 732, 701, 734, 1090, 1130, 1120]
+            },
+            {
+                name: '谷歌',
+                type: 'bar',
+                data: [120, 132, 101, 134, 290, 230, 220]
+            },
+            {
+                name: '必应',
+                type: 'bar',
+                data: [60, 72, 71, 74, 190, 130, 110]
+            },
+            {
+                name: '其他',
+                type: 'bar',
+                data: [62, 82, 91, 84, 109, 110, 120]
+            }
+        ]
+    };
+    chart3.setOption(option3);
 }
 
 function plusReady() {
@@ -176,9 +316,11 @@ var $main = new Vue({
                 }
             }],
             chartStyle: {
-                width: document.documentElement.clientWidth-20+"px",
+                width: document.documentElement.clientWidth - 20 + "px",
                 height: "300px"
-            }
+            },
+            chart2init:false,
+            chart3init:false,
         }
     },
     created: function () {
@@ -199,7 +341,6 @@ var $main = new Vue({
         },
         loadBottom: function () {
             var ref = this.$refs.loadmore;
-
             var data = {
                 column: "id,post_id,title,author_name,cover,published_at"
             };
