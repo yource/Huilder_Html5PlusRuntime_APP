@@ -24,7 +24,8 @@
             <!----- tab1：第一个tab页 ----->
             <mt-tab-container-item id="tab1">
 
-                <mt-loadmore :bottom-distance="30" bottom-loading-text="" bottom-drop-text="" bottom-pull-text="" :bottom-method="loadBottom"
+                <mt-loadmore :bottom-distance="30" bottom-loading-text="" 
+                    bottom-drop-text="" bottom-pull-text="" :bottom-method="loadBottom"
                     :bottom-all-loaded="tab1.allLoaded" :auto-fill="false" ref="loadmore">
                     <!--轮播banner-->
                     <mt-swipe :auto="2000" v-bind:style="{height:tab1.bannerHeight+'px'}">
@@ -62,16 +63,6 @@
                     基于前端技术和Html5+ SDK 搭建的多页面app，多webview的窗口管理模式，可以调用各系统和第三方API，包括原生UI、摄像头和照片、第三方登陆和支付等等
                 </div>
                 <div class="section">
-                    <div class="title">选择器</div>
-                    <div>
-                        <button type="button" class="mint-button mint-button--primary" @click="tab2.showPicker1=true">操作表</button>
-                        <button type="button" class="mint-button mint-button--primary" @tap="showPicker2" style="margin-left: 4%;">选择器</button>
-                        <button type="button" class="mint-button mint-button--primary" @tap="showPicker3">地域选择</button>
-                        <button type="button" class="mint-button mint-button--primary" @tap="showPicker4" style="margin-left: 4%;">时间选择</button>
-                    </div>
-                    <mt-actionsheet :actions="tab2.actionsheet" v-model="tab2.showPicker1"></mt-actionsheet>
-                </div>
-                <div class="section">
                     <div id="slider" class="mui-slider">
                         <div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
                             <a class="mui-control-item mui-active" href="#item1mobile">
@@ -100,11 +91,61 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="section">
                     <div class="title">音频</div>
-                    
-                </div>
+                    <div style="width: 30px;height: 30px;">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" @tap="playAudio2" style="border-radius: 50%;">
+                            <circle cx="100" cy="100" r="98" fill="none" stroke="#ccc" stroke-width="4" />
+                            <circle cx="100" cy="100" r="94" fill="none" stroke="#ff6700" stroke-width="12" 
+                                transform="matrix(0,-1,1,0,0,200)" :stroke-dasharray="svgDasharray"
+                                style="transition: stroke-dasharray 1s linear" />
+                            <polygon fill="#ff6700" stroke-width="0" :points="tab2.svgPoints" />
+                        </svg>
+                    </div>
+                    <ul>
+                        <li v-for="item in tab2.audioList">
 
+                        </li>
+                    </ul>
+                </div>
+                <div class="section" id="device">
+                    <div class="title">设备</div>
+                    <div class="row">
+                        <p>
+                            <span>系统语言：</span>{{tab2.device.language}}</p>
+                        <p>
+                            <span>系统名称：</span>{{tab2.device.name}}</p>
+                    </div>
+                    <div class="row">
+                        <p>
+                            <span>系统版本：</span>{{tab2.device.version}}</p>
+                        <p>
+                            <span>设备型号：</span>{{tab2.device.model}}</p>
+                    </div>
+                    <div class="row">
+                        <p>
+                            <span>设备厂商：</span>{{tab2.device.vendor}}</p>
+                        <p>
+                            <span>屏幕分辨率：</span>{{tab2.device.resolution}}</p>
+                    </div>
+                    <div class="row">
+                        <p>
+                            <span>调整屏幕亮度：</span>{{tab2.device.light + "%"}}</p>
+                    </div>
+                    <mt-range v-model="tab2.bright" :bar-height="3"></mt-range>
+                </div>
+                <div class="section">
+                    <div class="title">选择器</div>
+                    <div>
+                        <button type="button" class="mint-button mint-button--primary" @click="tab2.showPicker1=true">操作表</button>
+                        <button type="button" class="mint-button mint-button--primary" @tap="showPicker2" style="margin-left: 4%;">选择器</button>
+                        <button type="button" class="mint-button mint-button--primary" @tap="showPicker3">地域选择</button>
+                        <button type="button" class="mint-button mint-button--primary" @tap="showPicker4" style="margin-left: 4%;">时间选择</button>
+                    </div>
+                    <mt-actionsheet :actions="tab2.actionsheet" v-model="tab2.showPicker1"></mt-actionsheet>
+                </div>
+                <div style="height: 20px;"></div>
             </mt-tab-container-item>
 
             <!-- tab3 -->

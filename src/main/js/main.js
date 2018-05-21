@@ -1,31 +1,36 @@
-var newsDetailWebview = titleNView = chart1 = chart2 = chart3 = null;
+// 新闻详情页面窗口对象
+var newsDetailWebview = null;
+// 新闻详情页原生标题
+var titleNView = {
+    backgroundColor: '#f7f7f7',
+    titleText: '',
+    titleColor: '#000000',
+    type: 'transparent',
+    autoBackButton: true,
+    splitLine: {
+        color: '#cccccc'
+    }
+};
+// echarts图表;
+var chart1 = chart2 = chart3 = null;
+// 选择器
 var picker2 = new mui.PopPicker();
-picker2.setData([{
-        value: 'one',
-        text: '周杰伦'
-    },
-    {
-        value: 'two',
-        text: '丢火车'
-    },
-    {
-        value: 'three',
-        text: '大白菜'
-    },
-    {
-        value: 'four',
-        text: '太阳系'
-    },
-]);
 var picker3 = new mui.PopPicker({
     layer: 2
 });
-picker3.setData(cityData);
 var picker4 = new mui.DtPicker({
-    type: 'datetime'
+    type: 'date'
 });
+// 定时器-调节屏幕亮度
+var interval = null;
+// 音频文件目录对象
+var gentry = null;
+// 音频播放对象
+var playingAudio = null;
 
-// tab1页面初始化方法
+/**
+ * tab1页面初始化方法
+ */
 function init1() {
     if ($main.tab1.initFlag) {
         return;
@@ -62,30 +67,87 @@ function init1() {
     })
 }
 
+/**
+ * tab1图文列表底部刷新
+ */
+function loadBottom() {
+    var ref = $main.$refs.loadmore;
+    var data = {
+        column: "id,post_id,title,author_name,cover,published_at"
+    };
+
+    if ($main.tab1.minId) {
+        data.minId = $main.tab1.minId;
+        data.time = new Date().getTime() + "";
+        data.pageSize = 10;
+    }
+    mui.getJSON("http://spider.dcloud.net.cn/api/news", data, function (rsp) {
+        // 结束“加载中”状态
+        ref.onBottomLoaded();
+        if (rsp && rsp.length > 0) {
+            $main.tab1.minId = rsp[rsp.length - 1].id;
+            var addNews = rsp.map(function (item) {
+                return {
+                    guid: item.post_id,
+                    title: item.title,
+                    author: item.author_name,
+                    cover: item.cover,
+                    time: dateUtils.format(item.published_at)
+                }
+            });
+            $main.tab1.news = $main.tab1.news.concat(addNews);
+        }
+    });
+}
+
+/**
+ * tab2页面初始化方法
+ */
 function init2() {
+    // 选择器
+    picker2.setData([{
+            value: 'one',
+            text: '选项一'
+        },
+        {
+            value: 'two',
+            text: '选项二'
+        },
+        {
+            value: 'three',
+            text: '选项三'
+        },
+        {
+            value: 'four',
+            text: '选相四'
+        },
+    ]);
+    picker3.setData(cityData);
+
+    // 图表
     chart1 = echarts.init(document.getElementById('chart1'));
     showChart1();
     chart2 = echarts.init(document.getElementById('chart2'));
     chart3 = echarts.init(document.getElementById('chart3'));
-    
-    setTimeout(function(){
-        document.querySelector("#sliderProgressBar").style.width='33.3%';
+
+    // 滑动标签控制
+    setTimeout(function () {
+        document.querySelector("#sliderProgressBar").style.width = '33.3%';
         var myslider = mui('#slider').slider();
         myslider.refresh();
-    },200)
-    
-    document.getElementById('slider').addEventListener('slide', function(e) {
-    	if (e.detail.slideNumber === 1 && !$main.tab2.chart2init) {
-    		showChart2();
+    }, 200)
+    document.getElementById('slider').addEventListener('slide', function (e) {
+        if (e.detail.slideNumber === 1 && !$main.tab2.chart2init) {
+            showChart2();
             $main.tab2.chart2init = true;
-    	} else if (e.detail.slideNumber === 2 && !$main.tab2.chart3init) {
-    		showChart3();
-    		$main.tab2.chart3init = true;
-    	}
+        } else if (e.detail.slideNumber === 2 && !$main.tab2.chart3init) {
+            showChart3();
+            $main.tab2.chart3init = true;
+        }
     });
 }
 
-function showChart1(){
+function showChart1() {
     var option1 = {
         title: {
             text: '用户访问来源',
@@ -248,27 +310,53 @@ function showChart3() {
     chart3.setOption(option3);
 }
 
+// 读取录音历史列表
+function updateHistory() {
+    var reader = gentry.createReader();
+    reader.readEntries(function (entries) {
+        for (var i in entries) {
+            if (entries[i].isFile) {
+                $main.tab2.audioList.push(entries[i])
+            }
+        }
+    }, function (e) {
+        mui.toast('读取录音列表失败：' + e.message);
+    });
+}
+// 开始播放
+function startPlay(url) {
+
+}
+// 停止播放
+function stopPlay() {
+
+}
+
 function plusReady() {
-    // 监听自定义事件
+    // 监听fire自定义事件
     document.addEventListener('init', function (event) {
         var userId = event.detail.userId;
         var userName = event.detail.userName;
         init1();
     })
 
-    // 预加载详情页
-    titleNView = {
-        backgroundColor: '#f7f7f7',
-        titleText: '',
-        titleColor: '#000000',
-        type: 'transparent',
-        autoBackButton: true,
-        splitLine: {
-            color: '#cccccc'
-        }
-    }
+    // 预加载新闻详情页
     router.newsDetail.styles.titleNView = titleNView;
     newsDetailWebview = router.create(router.newsDetail);
+
+    // 获取音频目录对象
+    plus.io.resolveLocalFileSystemURL('_doc/', function (entry) {
+        entry.getDirectory('audio', {
+            create: true
+        }, function (dir) {
+            gentry = dir;
+            updateHistory();
+        }, function (e) {
+            outSet('Get directory "audio" failed: ' + e.message);
+        });
+    }, function (e) {
+        outSet('Resolve "_doc/" failed: ' + e.message);
+    });
 
     // 监听安卓返回键
     var backButtonPress = 0;
@@ -319,8 +407,19 @@ var $main = new Vue({
                 width: document.documentElement.clientWidth - 20 + "px",
                 height: "300px"
             },
-            chart2init:false,
-            chart3init:false,
+            chart2init: false,
+            chart3init: false,
+            device: {},
+            bright: 0.5,
+            audioList: [],
+            svgPoints: "70,50 150,100 70,150",
+            playing: false,
+            percent: 0
+        }
+    },
+    computed: {
+        svgDasharray: function () {
+            return this.tab2.percent / 100 * 2 * Math.PI * 97 + " 700"
         }
     },
     created: function () {
@@ -333,40 +432,21 @@ var $main = new Vue({
             if (!$main.tab1.initFlag) {
                 init1();
             }
+            $main.tab2.device = {
+                language: plus.os.language,
+                name: plus.os.name,
+                version: plus.os.version,
+                model: plus.device.model,
+                vendor: plus.device.vendor,
+                resolution: parseInt(plus.screen.resolutionWidth) + " x " + parseInt(plus.screen
+                    .resolutionHeight)
+            }
+            $main.tab2.bright = plus.screen.getBrightness() * 100;
         });
     },
     methods: {
         bannerClick: function (url) {
             router.openURL(url, "最热音乐圈")
-        },
-        loadBottom: function () {
-            var ref = this.$refs.loadmore;
-            var data = {
-                column: "id,post_id,title,author_name,cover,published_at"
-            };
-
-            if ($main.tab1.minId) {
-                data.minId = $main.tab1.minId;
-                data.time = new Date().getTime() + "";
-                data.pageSize = 10;
-            }
-            mui.getJSON("http://spider.dcloud.net.cn/api/news", data, function (rsp) {
-                // 结束“加载中”状态
-                ref.onBottomLoaded();
-                if (rsp && rsp.length > 0) {
-                    $main.tab1.minId = rsp[rsp.length - 1].id;
-                    var addNews = rsp.map(function (item) {
-                        return {
-                            guid: item.post_id,
-                            title: item.title,
-                            author: item.author_name,
-                            cover: item.cover,
-                            time: dateUtils.format(item.published_at)
-                        }
-                    });
-                    $main.tab1.news = $main.tab1.news.concat(addNews);
-                }
-            });
         },
         toNewsDetail: function (item) {
             //触发子窗口变更新闻详情
@@ -401,12 +481,40 @@ var $main = new Vue({
             picker4.show(function (selectItems) {
                 mui.toast(selectItems);
             })
+        },
+        loadBottom: loadBottom,
+        playAutio: function (entry) {
+            if (entry) {
+                mui.toast('无效的音频文件');
+                return;
+            }
+            startPlay('_doc/audio/' + entry.name);
+        },
+        playAudio2: function(){
+            if($main.tab2.playing){
+                $main.tab2.svgPoints = "70,50 150,100 70,150";
+                $main.tab2.percent = 40;
+                $main.tab2.playing = false;
+            }else{
+                $main.tab2.svgPoints = "60,60 140,60 140,140 60,140";
+                $main.tab2.playing = true;
+                $main.tab2.percent = 80;
+            }
+            
         }
     },
     watch: {
         tab: function (tab) {
             if (tab == "tab2" && !$main.tab2.initFlag) {
                 init2()
+            }
+        },
+        bright: function (bright) {
+            if (!interval) {
+                interval = setTimeout(function () {
+                    plus.screen.setBrightness(bright * 0.01);
+                    interval = null;
+                }, 200)
             }
         }
     }

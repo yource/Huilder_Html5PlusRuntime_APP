@@ -132,3 +132,6 @@ ul,li{
     padding-right: 0;
 }
 
+.row{
+    display: -webkit-box;
+}

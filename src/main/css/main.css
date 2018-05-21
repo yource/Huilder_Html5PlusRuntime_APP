@@ -212,3 +212,27 @@ body{
 .mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active{
     color: #000;
 }
+#device .row>p{
+    width: 50%;
+    text-overflow: ellipsis;
+    color: #626269;
+}
+#device .row>p span{
+    color: #8f8f94;
+}
+.svgButton{
+    width: 100px;
+    height: 100px;
+    position: relative;
+}
+.svgButton>div{
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+.svgButton svg{
+    width: 100%;
+    height: 100%;
+}
