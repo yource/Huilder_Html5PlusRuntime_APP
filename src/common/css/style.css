@@ -100,6 +100,13 @@ ul,li{
 .mint-button.is-disabled {
     opacity: .3
 }
+.mint-button--default{
+    font-size: 15px;
+    line-height: 34px;
+    height: 34px;
+    padding: 0;
+    box-shadow: none;
+}
 .mint-actionsheet{
     border-top-left-radius:5px;
     border-top-right-radius:5px;
@@ -134,4 +141,24 @@ ul,li{
 
 .row{
     display: -webkit-box;
+    -webkit-box-align: center;
+}
+.modalWrap{
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background: rgba(0,0,0,0.75);
+}
+.modalDialog{
+    width: 76%;
+    background: #fff;
+    border-radius: 8px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    padding: 12px;
 }

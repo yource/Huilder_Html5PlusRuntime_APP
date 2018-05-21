@@ -184,6 +184,11 @@ body{
     height: 34px;
     padding: 0;
 }
+.mint-button--wide{
+    width: 80%;
+    margin: 10px auto;
+    display: block;
+}
 .scrollWrap{
     overflow-x: hidden;
     overflow-y: scroll;
@@ -235,4 +240,57 @@ body{
 .svgButton svg{
     width: 100%;
     height: 100%;
+}
+.modalDialog{
+    padding-top: 30px;
+}
+.rprogress {
+	background: url(../../common/images/icon/microphone.png) no-repeat center center;
+	background-size: 45px 45px;
+}
+.rschedule {
+    background-color: rgba(0,0,0,0);
+    border: 3px solid rgba(0,183,229,0.9);
+    opacity: .9;
+    border-left: 3px solid rgba(0,0,0,0);
+    border-right: 3px solid rgba(0,0,0,0);
+    border-radius: 50px;
+    box-shadow: 0 0 15px #2187e7;
+    width: 72px;
+    height: 72px;
+    margin: 0 auto;
+    -webkit-animation: rotate 1s infinite linear;
+    animation: rotate 1s infinite linear;
+}
+.rtime{
+    text-align: center;
+    margin: 20px auto;
+}
+.listEmpty{
+    text-align: center;
+    border-top: 1px solid #dedede;
+}
+.listEmpty img{
+    width: 72px;
+    height: 72px;
+    margin: 20px auto 0;
+}
+#audio ul{
+    border-top: 1px solid #dedede;
+}
+.playButton{
+    width: 30px;
+    height: 30px;
+}
+#audio>ul>li{
+    padding: 5px 10px;
+}
+.audioInfo{
+    -webkit-box-flex: 1;
+    line-height: 20px;
+    padding-top: 5px;
+}
+.audioInfo p{
+    padding-left: 2px;
+    margin: 0;
 }

@@ -21,6 +21,9 @@
 		"url": "http://www.dcloud.io"
 	},
 	"permissions": {
+        "Audio": {
+            "description": "音频"
+        },
 		"Cache": {
 			"description": "管理应用缓存"
 		},
@@ -31,6 +34,9 @@
 		"Events": {
 			"description": "应用扩展事件"
 		},
+        "Device": {
+            "description": "设备信息"
+        },
 		"UI": {},
 		"Share": {},
 		"OAuth": {},

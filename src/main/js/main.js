@@ -27,7 +27,9 @@ var interval = null;
 var gentry = null;
 // 音频播放对象
 var playingAudio = null;
-
+// 录音对象
+var recordPlus = null;
+var recordInterval = null;
 /**
  * tab1页面初始化方法
  */
@@ -154,6 +156,10 @@ function showChart1() {
             subtext: '数据来自YOURCE',
             x: 'center'
         },
+        tooltip: {
+            trigger: 'item',
+            formatter: "访问量 : {c}<br/>百分比：{d}% "
+        },
         series: [{
             name: '访问来源',
             type: 'pie',
@@ -179,14 +185,7 @@ function showChart1() {
                     value: 1548,
                     name: '搜索引擎'
                 }
-            ],
-            itemStyle: {
-                emphasis: {
-                    shadowBlur: 10,
-                    shadowOffsetX: 0,
-                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-                }
-            }
+            ]
         }]
     };
     chart1.setOption(option1);
@@ -224,27 +223,18 @@ function showChart2() {
                 name: '视频广告',
                 type: 'line',
                 stack: '总量',
-                areaStyle: {
-                    normal: {}
-                },
                 data: [120, 132, 101, 134, 90, 230, 210]
             },
             {
                 name: '直接访问',
                 type: 'line',
                 stack: '总量',
-                areaStyle: {
-                    normal: {}
-                },
                 data: [320, 332, 301, 334, 390, 330, 320]
             },
             {
                 name: '搜索引擎',
                 type: 'line',
                 stack: '总量',
-                areaStyle: {
-                    normal: {}
-                },
                 data: [480, 560, 580, 620, 680, 520, 600]
             }
         ]
@@ -316,7 +306,13 @@ function updateHistory() {
     reader.readEntries(function (entries) {
         for (var i in entries) {
             if (entries[i].isFile) {
-                $main.tab2.audioList.push(entries[i])
+                var entry = entries[i];
+                entry.getMetadata(function(metadata) {
+                	entry.time = dateToStr(metadata.modificationTime);
+                    entry.percent = 0;
+                    entry.index = $main.tab2.audioList.length;
+                	$main.tab2.audioList.push(entry);
+                }, function(e) {});
             }
         }
     }, function (e) {
@@ -357,6 +353,8 @@ function plusReady() {
     }, function (e) {
         outSet('Resolve "_doc/" failed: ' + e.message);
     });
+    // 获取录音对象
+    recordPlus = plus.audio.getRecorder();
 
     // 监听安卓返回键
     var backButtonPress = 0;
@@ -409,19 +407,23 @@ var $main = new Vue({
             },
             chart2init: false,
             chart3init: false,
-            device: {},
-            bright: 0.5,
+            device: {
+                language: "中文",
+                name: "",
+                version: "",
+                model: "",
+                vendor: "",
+                resolution: ""
+            },
             audioList: [],
             svgPoints: "70,50 150,100 70,150",
             playing: false,
-            percent: 0
-        }
+            showModel: false,
+            recordTime: "00:00:00"
+        },
+        bright: 0.5,
     },
-    computed: {
-        svgDasharray: function () {
-            return this.tab2.percent / 100 * 2 * Math.PI * 97 + " 700"
-        }
-    },
+    computed: {},
     created: function () {
         this.tab1.bannerHeight = (document.documentElement.clientWidth) / (720 / 288);
     },
@@ -432,16 +434,14 @@ var $main = new Vue({
             if (!$main.tab1.initFlag) {
                 init1();
             }
-            $main.tab2.device = {
-                language: plus.os.language,
-                name: plus.os.name,
-                version: plus.os.version,
-                model: plus.device.model,
-                vendor: plus.device.vendor,
-                resolution: parseInt(plus.screen.resolutionWidth) + " x " + parseInt(plus.screen
-                    .resolutionHeight)
-            }
-            $main.tab2.bright = plus.screen.getBrightness() * 100;
+            $main.tab2.device.language = plus.os.language;
+            $main.tab2.device.name = plus.os.name;
+            $main.tab2.device.version = plus.os.version;
+            $main.tab2.device.model = plus.device.model;
+            $main.tab2.device.vendor = plus.device.vendor;
+            $main.tab2.device.resolution = parseInt(plus.screen.resolutionWidth * plus.screen.scale) +
+                " x " + parseInt(plus.screen.resolutionHeight * plus.screen.scale);
+            $main.bright = parseInt(plus.screen.getBrightness() * 100);
         });
     },
     methods: {
@@ -483,24 +483,55 @@ var $main = new Vue({
             })
         },
         loadBottom: loadBottom,
-        playAutio: function (entry) {
-            if (entry) {
-                mui.toast('无效的音频文件');
-                return;
-            }
-            startPlay('_doc/audio/' + entry.name);
+        playAudio: function (index) {
+            console.log(index)
+            var audioOnPlay = document.getElementById("audio"+index);
+            console.log(audioOnPlay);
+            audioOnPlay.play();
         },
-        playAudio2: function(){
-            if($main.tab2.playing){
+        playAudio2: function () {
+            if ($main.tab2.playing) {
                 $main.tab2.svgPoints = "70,50 150,100 70,150";
                 $main.tab2.percent = 40;
                 $main.tab2.playing = false;
-            }else{
+            } else {
                 $main.tab2.svgPoints = "60,60 140,60 140,140 60,140";
                 $main.tab2.playing = true;
                 $main.tab2.percent = 80;
             }
-            
+
+        },
+        startRecord: function () {
+            $main.tab2.showModel = true;
+            recordPlus.record({
+                filename: '_doc/audio/'
+            }, function (p) {
+                plus.io.resolveLocalFileSystemURL(p, function (entry) {
+                    entry.getMetadata(function(metadata) {
+                        entry.time = dateToStr(metadata.modificationTime);
+                        entry.percent = 0;
+                        entry.index = $main.tab2.audioList.length;
+                        $main.tab2.audioList.push(entry);
+                    }, function(e) {mui.toast('录制完成');});
+                }, function (e) {mui.toast('获取录音信息失败');});
+            }, function (e) {mui.toast('录制失败');});
+            var t = 0;
+            recordInterval = setInterval(function () {
+                t++;
+                $main.tab2.recordTime = timeToStr(t);
+            }, 1000);
+        },
+        stopRecord: function () {
+            $main.tab2.showModel = false;
+            $main.tab2.recordTime = '00:00:00';
+            clearInterval(recordInterval);
+            recordInterval = null;
+            recordPlus.stop();
+        },
+        cleanRecord:function(){
+            gentry.removeRecursively(function() {
+                $main.tab2.audioList = [];
+            }, function(e) {});
         }
     },
     watch: {
@@ -514,8 +545,31 @@ var $main = new Vue({
                 interval = setTimeout(function () {
                     plus.screen.setBrightness(bright * 0.01);
                     interval = null;
-                }, 200)
+                }, 100)
             }
         }
     }
 })
+
+
+function timeToStr(ts){
+	if(isNaN(ts)){
+		return "--:--:--";
+	}
+	var h=parseInt(ts/3600);
+	var m=parseInt((ts%3600)/60);
+	var s=parseInt(ts%60);
+	return (ultZeroize(h)+":"+ultZeroize(m)+":"+ultZeroize(s));
+};
+function dateToStr(d){
+	return (d.getFullYear()+"-"+ultZeroize(d.getMonth()+1)+"-"+ultZeroize(d.getDate())+" "+ultZeroize(d.getHours())+":"+ultZeroize(d.getMinutes())+":"+ultZeroize(d.getSeconds()));
+};
+function ultZeroize(v,l){
+	var z="";
+	l=l||2;
+	v=String(v);
+	for(var i=0;i<l-v.length;i++){
+		z+="0";
+	}
+	return z+v;
+};
