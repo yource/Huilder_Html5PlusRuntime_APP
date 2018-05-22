@@ -154,7 +154,17 @@ function init2() {
     
     // 创建下载任务
     downloadPlus = plus.downloader.createDownload( $main.tab2.download.url);
-    $main.tab2.download.size = downloadPlus.totalSize/(1024*1024)+"M";
+    downloadPlus.addEventListener( "statechanged", function(task,status){
+    	if(!downloadPlus){return;}
+    	switch(task.state) {
+            case 3:
+                $main.tab2.download.size = parseInt(downloadPlus.totalSize/(1024*1024)*10)/10+"M";
+                downloadPlus.abort();
+                downloadPlus = null;
+            break;
+    	}
+    } );
+    downloadPlus.start();
 }
 
 function showChart1() {
@@ -425,10 +435,13 @@ var $main = new Vue({
             playing: false,
             recordTime: "00:00:00",
             download:{
+                status:"wait",
                 percent:0,
                 name:"神墓",
                 url:"http://101.110.118.47/d5.zxcs1.xyz/201312/shenmu%20zuozhechendongt.rar",
-                size:"2.2M",
+                size:"0M",
+                statusText:"等待下载",
+                button:"开始下载"
             }
         },
         bright: 0,
@@ -496,6 +509,7 @@ var $main = new Vue({
         loadBottom: loadBottom,
         playAudio: function (index) {
             if ($main.tab2.audioList[index].playing) {
+                playingAudio.stop();
                 $main.tab2.audioList[index].playing = false;
                 $main.tab2.audioList[index].percent = 0;
                 clearInterval(playInterval);
@@ -509,6 +523,7 @@ var $main = new Vue({
                     }
                 }
                 if(playFlag!==false){
+                    playingAudio.stop();
                     $main.tab2.audioList[playFlag].playing = false;
                     $main.tab2.audioList[playFlag].percent = 0;
                     clearInterval(playInterval);
@@ -588,34 +603,45 @@ var $main = new Vue({
             recordPlus.stop();
         },
         cleanRecord: function () {
-            mui.confirm("此操作将删除所有录音文件", "清空记录", ["取消", "确定"], function (btn) {
+            mui.confirm("此操作将删除所有录音文件", "清空记录", function (btn) {
                 if (btn.index == 1) {
                     gentry.removeRecursively(function () {
                         $main.tab2.audioList = [];
                     }, function (e) {});
                 }
-            });
+            },"div");
         },
         startDownload: function(){
+            downloadPlus = plus.downloader.createDownload( $main.tab2.download.url);
             downloadPlus.addEventListener( "statechanged", function(task,status){
-            	if(!dtask){return;}
+            	if(!downloadPlus){return;}
             	switch(task.state) {
             		case 1: // 开始
-            			outLine( "开始下载..." );
+                        $main.tab2.download.status = "loading";
+            			$main.tab2.download.statusText = "启动下载...";
             		break;
             		case 2: // 已连接到服务器
-            			outLine( "链接到服务器..." );
+                        $main.tab2.download.status = "loading";
+            			$main.tab2.download.statusText = "连接到服务器..." ;
             		break;
             		case 3:	// 已接收到数据
-            			outSet( "下载数据更新:" );
-            			outLine( task.downloadedSize+"/"+task.totalSize );
+                        $main.tab2.download.status = "loading";
+            			$main.tab2.download.statusText = "正在接收数据";
+            			$main.tab2.download.percent = parseInt((task.downloadedSize/task.totalSize)*100);
             		break;
             		case 4:	// 下载完成
-            			outSet( "下载完成！" );
-            			outLine( task.totalSize );
+                        $main.tab2.download.statusText = "下载完成";
+            			$main.tab2.download.status = "ok";
             		break;
             	}
             } );
+            downloadPlus.start();
+        },
+        pauseDownload:function(){
+            downloadPlus.abort();
+            downloadPlus = null;
+            $main.tab2.download.status = "wait";
+            $main.tab2.download.statusText = "下载已取消";
         }
     },
     watch: {

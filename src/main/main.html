@@ -90,7 +90,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="section">
                     <div class="title">选择器</div>
                     <div>
@@ -128,34 +128,29 @@
                             <div class="playButton" @tap="playAudio(item.index)">
                                 <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="border-radius: 50%;">
                                     <circle cx="100" cy="100" r="98" fill="none" stroke="#ccc" stroke-width="4" />
-                                    <circle cx="100" cy="100" r="94" fill="none" stroke="#ff6700" 
-                                        stroke-width="12" transform="matrix(0,-1,1,0,0,200)" 
-                                        :stroke-dasharray="item.percent * 2 * Math.PI * 97 + ' 700'"
+                                    <circle cx="100" cy="100" r="94" fill="none" stroke="#ff6700" stroke-width="12" transform="matrix(0,-1,1,0,0,200)" :stroke-dasharray="item.percent * 2 * Math.PI * 97 + ' 700'"
                                         :style="item.playing ? 'transition:stroke-dasharray 0.3s linear' : ' '" />
-                                    <polygon fill="#ff6700" stroke-width="0" 
-                                        :points="item.playing?'60,60 140,60 140,140 60,140':'70,50 150,100 70,150'" />
+                                    <polygon fill="#ff6700" stroke-width="0" :points="item.playing?'60,60 140,60 140,140 60,140':'70,50 150,100 70,150'" />
                                 </svg>
                             </div>
                         </li>
-                        <button type="button" style="margin:20px auto" class="mint-button mint-button--default mint-button--wide" @tap="cleanRecord">清空记录</button>
+                        <div style="margin:20px auto" class="mui-btn mint-button--default mint-button--wide" @tap="cleanRecord">清空记录</div>
                     </ul>
                 </div>
                 <div class="section" id="download">
                     <div class="title">下载</div>
-                    <div class="row">
+                    <div class="row" style="padding-top: 15px;">
                         <div class="pic" style="background: url(../common/images/shenmu.jpg) no-repeat;background-size: 100% 100%;">
-                            <div style="position: relative;height: 80px;" v-show="tab2.download.percent>0">
-                                <div class="percent">{{tab2.download.percent+"%"}}</div>
-                                <div class="mask" :style="'transform:translateY(-'+ tab2.download.percent +'%)'"></div>
-                            </div>
                         </div>
                         <div class="info">
-                            <h3>{{tab2.download.name}}</h3>
-                            <p>{{tab2.download.size}}</p>
+                            <p>{{tab2.download.name}} <span>（{{tab2.download.size}}）</span><span class="status">{{tab2.download.statusText}}</span></p>
+                            <mt-progress :value="tab2.download.percent">
+                                <div slot="start" style="width: 44px;">{{tab2.download.percent+"%"}}</div>
+                            </mt-progress>
+                            <button type="button" v-show="tab2.download.status=='wait'" class="mint-button mint-button--primary mint-button--wide" @click="startDownload">开始下载</button>
+                            <button type="button" v-show="tab2.download.status=='loading'" class="mint-button mint-button--primary mint-button--wide" @click="pauseDownload">取消下载</button>
+                            <button type="button" v-show="tab2.download.status=='ok'"class="mint-button mint-button--primary mint-button--wide" disabled="disabled">已下载</button>
                         </div>
-                    </div>
-                    <div>
-                        <button type="button" class="mint-button" @click="startDownload">开始下载</button>
                     </div>
                 </div>
                 <div class="section" id="device">
@@ -187,7 +182,7 @@
                             <span>设备厂商：</span>{{tab2.device.vendor}}</p>
                     </div>
                 </div>
-                
+
                 <div style="height: 20px;"></div>
             </mt-tab-container-item>
 

@@ -94,9 +94,6 @@ ul,li{
     display: block;
     margin: 18px;
 }
-.mint-button{
-    border: 1px solid #dedede;
-}
 .mint-button--primary{
     border: none;
 }
@@ -156,7 +153,7 @@ ul,li{
     right: 0;
     bottom: 0;
     top: 0;
-    background: rgba(0,0,0,0.75);
+    background: rgba(0,0,0,0.72);
     opacity: 0;
     -webkit-transition: opacity 0.3s;
     transition: opacity 0.3s;
@@ -185,13 +182,44 @@ ul,li{
 .mui-popup{
     position: fixed;
     border-radius: 8px;
-    transform: translate3d(-50%, -50%, 0) scale(1.1);
-    -webkit-transform: translate3d(-50%, -50%, 0) scale(1.1);
+    display: block;
 }
-.mui-popup.mui-popup-in{
-    transition-duration: 0.15s;
-    -webkit-transition-duration: 0.15s;
+.mui-popup-inner{
+    background: #fff;
+    border-radius:8px 8px 0 0;
+}
+.mui-popup-button{
+    background:#fff;
+    border-radius: 0;
 }
 .mui-popup-button:first-child{
-    color: #83848a;
+    color: #3e3e42;
+    border-radius: 0;
+    border-right: 1px solid rgba(0,0,0,0.08);
+}
+.mui-popup-button:last-child{
+    border-radius: 0;
+}
+.mui-popup-title+.mui-popup-text{
+    color: #6c6e75;
+}
+.mui-popup-button:after{
+    content:"";
+    display: none;
+}
+.mui-popup {
+    -webkit-transform: translate3d(-50%, -50%, 0) scale(1,1);
+    transform: translate3d(-50%, -50%, 0) scale(1,1);
+    -webkit-transition-duration: 200ms !important;
+	transition-duration: 200ms !important;
+    -webkit-transition-property: opacity;
+    transition-property: opacity;
+}
+.mui-popup-backdrop{
+    background: rgba(0,0,0,0.72);
+    display: block;
+    -webkit-transition-duration: 0.3s !important;
+    transition-duration: 0.3s !important;
+    -webkit-transition-property: opacity;
+    transition-property: opacity;
 }
