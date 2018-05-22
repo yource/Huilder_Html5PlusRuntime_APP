@@ -24,6 +24,9 @@
         "Audio": {
             "description": "音频"
         },
+        "Speech": {
+            "description": "语音输入"
+        },
 		"Cache": {
 			"description": "管理应用缓存"
 		},
@@ -37,12 +40,14 @@
         "Device": {
             "description": "设备信息"
         },
+        "Downloader": {
+            "description": "文件下载，管理文件下载任务"
+        },
 		"UI": {},
 		"Share": {},
 		"OAuth": {},
 		"Push": {},
 		"Maps": {},
-		"Speech": {},
 		"Payment": {},
 		"Contacts": {},
 		"Statistic": {},

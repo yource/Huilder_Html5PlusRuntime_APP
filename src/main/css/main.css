@@ -294,3 +294,34 @@ body{
     padding-left: 2px;
     margin: 0;
 }
+#download .pic{
+    width:56px;
+    height: 80px;
+    overflow: hidden;
+}
+#download .percent{
+    line-height: 80px;
+    font-size: 15px;
+    color: #fff;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 5;
+    text-align: center;
+}
+#download .mask{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 4;
+    transform: translateY 0.3s linear;
+}
+#download img{
+    width: 100%;
+    height: 100%;
+}

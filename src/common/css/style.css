@@ -94,6 +94,12 @@ ul,li{
     display: block;
     margin: 18px;
 }
+.mint-button{
+    border: 1px solid #dedede;
+}
+.mint-button--primary{
+    border: none;
+}
 .mint-button:not(.is-disabled):active:after {
     opacity: .1;
 }
@@ -151,6 +157,13 @@ ul,li{
     bottom: 0;
     top: 0;
     background: rgba(0,0,0,0.75);
+    opacity: 0;
+    -webkit-transition: opacity 0.3s;
+    transition: opacity 0.3s;
+    display: none;
+}
+.modalWrap.active{
+    opacity: 1;
 }
 .modalDialog{
     width: 76%;
@@ -159,6 +172,26 @@ ul,li{
     position: absolute;
     top: 50%;
     left: 50%;
-    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%) scale(1.1,1.1);
+    -webkit-transform: translate(-50%,-50%) scale(1.1,1.1);
     padding: 12px;
+    transition: transform 0.15s;
+    -webkit-transition: -webkit-transform 0.15s;
+}
+.modalWrap.active .modalDialog{
+    transform: translate(-50%,-50%) scale(1,1);
+    -webkit-transform: translate(-50%,-50%) scale(1,1);
+}
+.mui-popup{
+    position: fixed;
+    border-radius: 8px;
+    transform: translate3d(-50%, -50%, 0) scale(1.1);
+    -webkit-transform: translate3d(-50%, -50%, 0) scale(1.1);
+}
+.mui-popup.mui-popup-in{
+    transition-duration: 0.15s;
+    -webkit-transition-duration: 0.15s;
+}
+.mui-popup-button:first-child{
+    color: #83848a;
 }

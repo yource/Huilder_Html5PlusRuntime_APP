@@ -90,11 +90,22 @@
                         </div>
                     </div>
                 </div>
+                
+                <div class="section">
+                    <div class="title">选择器</div>
+                    <div>
+                        <button type="button" class="mint-button mint-button--primary" @click="tab2.showPicker1=true">操作表</button>
+                        <button type="button" class="mint-button mint-button--primary" @tap="showPicker2" style="margin-left: 4%;">选择器</button>
+                        <button type="button" class="mint-button mint-button--primary" @tap="showPicker3">地域选择</button>
+                        <button type="button" class="mint-button mint-button--primary" @tap="showPicker4" style="margin-left: 4%;">时间选择</button>
+                    </div>
+                    <mt-actionsheet :actions="tab2.actionsheet" v-model="tab2.showPicker1"></mt-actionsheet>
+                </div>
 
                 <div class="section" id="audio">
                     <div class="title">音频</div>
                     <button type="button" style="margin:20px auto" class="mint-button mint-button--primary mint-button--wide" @click="startRecord">开始录音</button>
-                    <div class="modalWrap" v-show="tab2.showModel">
+                    <div class="modalWrap" id="modalWrap">
                         <div class="modalDialog">
                             <div class="rprogress">
                                 <div class="rschedule"></div>
@@ -117,17 +128,52 @@
                             <div class="playButton" @tap="playAudio(item.index)">
                                 <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="border-radius: 50%;">
                                     <circle cx="100" cy="100" r="98" fill="none" stroke="#ccc" stroke-width="4" />
-                                    <circle cx="100" cy="100" r="94" fill="none" stroke="#ff6700" stroke-width="12" transform="matrix(0,-1,1,0,0,200)" :stroke-dasharray="item.percent / 100 * 2 * Math.PI * 97 + ' 700'"
-                                        style="transition: stroke-dasharray 1s linear" />
-                                    <polygon fill="#ff6700" stroke-width="0" :points="tab2.svgPoints" />
+                                    <circle cx="100" cy="100" r="94" fill="none" stroke="#ff6700" 
+                                        stroke-width="12" transform="matrix(0,-1,1,0,0,200)" 
+                                        :stroke-dasharray="item.percent * 2 * Math.PI * 97 + ' 700'"
+                                        :style="item.playing ? 'transition:stroke-dasharray 0.3s linear' : ' '" />
+                                    <polygon fill="#ff6700" stroke-width="0" 
+                                        :points="item.playing?'60,60 140,60 140,140 60,140':'70,50 150,100 70,150'" />
                                 </svg>
                             </div>
                         </li>
                         <button type="button" style="margin:20px auto" class="mint-button mint-button--default mint-button--wide" @tap="cleanRecord">清空记录</button>
                     </ul>
                 </div>
+                <div class="section" id="download">
+                    <div class="title">下载</div>
+                    <div class="row">
+                        <div class="pic" style="background: url(../common/images/shenmu.jpg) no-repeat;background-size: 100% 100%;">
+                            <div style="position: relative;height: 80px;" v-show="tab2.download.percent>0">
+                                <div class="percent">{{tab2.download.percent+"%"}}</div>
+                                <div class="mask" :style="'transform:translateY(-'+ tab2.download.percent +'%)'"></div>
+                            </div>
+                        </div>
+                        <div class="info">
+                            <h3>{{tab2.download.name}}</h3>
+                            <p>{{tab2.download.size}}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="button" class="mint-button" @click="startDownload">开始下载</button>
+                    </div>
+                </div>
                 <div class="section" id="device">
                     <div class="title">设备</div>
+                    <div class="row">
+                        <p style="width: 70px;margin: 0;">
+                            <span>调整亮度</span>
+                        </p>
+                        <div style="-webkit-box-flex: 1;">
+                            <mt-range v-model="bright" :bar-height="3"></mt-range>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p>
+                            <span>屏幕亮度：</span>{{bright + "%"}}</p>
+                        <p>
+                            <span>屏幕分辨率：</span>{{tab2.device.resolution}}</p>
+                    </div>
                     <div class="row">
                         <p>
                             <span>系统名称：</span>{{tab2.device.name}}</p>
@@ -140,32 +186,8 @@
                         <p>
                             <span>设备厂商：</span>{{tab2.device.vendor}}</p>
                     </div>
-                    <div class="row">
-                        <p>
-                            <span>屏幕亮度：</span>{{bright + "%"}}</p>
-                        <p>
-                            <span>屏幕分辨率：</span>{{tab2.device.resolution}}</p>
-                    </div>
-                    <div class="row">
-                        <p style="width: 70px;margin: 0;">
-                            <span>调整亮度</span>
-                        </p>
-                        <div style="-webkit-box-flex: 1;">
-                            <mt-range v-model="bright" :bar-height="3"></mt-range>
-                        </div>
-                    </div>
-
                 </div>
-                <div class="section">
-                    <div class="title">选择器</div>
-                    <div>
-                        <button type="button" class="mint-button mint-button--primary" @click="tab2.showPicker1=true">操作表</button>
-                        <button type="button" class="mint-button mint-button--primary" @tap="showPicker2" style="margin-left: 4%;">选择器</button>
-                        <button type="button" class="mint-button mint-button--primary" @tap="showPicker3">地域选择</button>
-                        <button type="button" class="mint-button mint-button--primary" @tap="showPicker4" style="margin-left: 4%;">时间选择</button>
-                    </div>
-                    <mt-actionsheet :actions="tab2.actionsheet" v-model="tab2.showPicker1"></mt-actionsheet>
-                </div>
+                
                 <div style="height: 20px;"></div>
             </mt-tab-container-item>
 

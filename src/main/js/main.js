@@ -27,9 +27,13 @@ var interval = null;
 var gentry = null;
 // 音频播放对象
 var playingAudio = null;
+var playInterval = null;
 // 录音对象
 var recordPlus = null;
 var recordInterval = null;
+// 下载对象
+var downloadPlus = null;
+
 /**
  * tab1页面初始化方法
  */
@@ -147,6 +151,10 @@ function init2() {
             $main.tab2.chart3init = true;
         }
     });
+    
+    // 创建下载任务
+    downloadPlus = plus.downloader.createDownload( $main.tab2.download.url);
+    $main.tab2.download.size = downloadPlus.totalSize/(1024*1024)+"M";
 }
 
 function showChart1() {
@@ -307,25 +315,23 @@ function updateHistory() {
         for (var i in entries) {
             if (entries[i].isFile) {
                 var entry = entries[i];
-                entry.getMetadata(function(metadata) {
-                	entry.time = dateToStr(metadata.modificationTime);
-                    entry.percent = 0;
-                    entry.index = $main.tab2.audioList.length;
-                	$main.tab2.audioList.push(entry);
-                }, function(e) {});
+                entry.playing = false;
+                entry.percent = 0; //当前播放进度 0-1
+                entry.index = i;
+                entry.time = "";
+                $main.tab2.audioList.push(entry);
+                getMetadata($main.tab2.audioList[i]);
             }
         }
     }, function (e) {
         mui.toast('读取录音列表失败：' + e.message);
     });
 }
-// 开始播放
-function startPlay(url) {
-
-}
-// 停止播放
-function stopPlay() {
-
+// 获取时间
+function getMetadata(entry) {
+    entry.getMetadata(function (metadata) {
+        entry.time = dateToStr(metadata.modificationTime);
+    }, function (e) {});
 }
 
 function plusReady() {
@@ -408,7 +414,7 @@ var $main = new Vue({
             chart2init: false,
             chart3init: false,
             device: {
-                language: "中文",
+                language: "",
                 name: "",
                 version: "",
                 model: "",
@@ -416,12 +422,17 @@ var $main = new Vue({
                 resolution: ""
             },
             audioList: [],
-            svgPoints: "70,50 150,100 70,150",
             playing: false,
-            showModel: false,
-            recordTime: "00:00:00"
+            recordTime: "00:00:00",
+            download:{
+                percent:0,
+                name:"神墓",
+                url:"http://101.110.118.47/d5.zxcs1.xyz/201312/shenmu%20zuozhechendongt.rar",
+                size:"2.2M",
+            }
         },
-        bright: 0.5,
+        bright: 0,
+        showModel: false,
     },
     computed: {},
     created: function () {
@@ -484,37 +495,85 @@ var $main = new Vue({
         },
         loadBottom: loadBottom,
         playAudio: function (index) {
-            console.log(index)
-            var audioOnPlay = document.getElementById("audio"+index);
-            console.log(audioOnPlay);
-            audioOnPlay.play();
-        },
-        playAudio2: function () {
-            if ($main.tab2.playing) {
-                $main.tab2.svgPoints = "70,50 150,100 70,150";
-                $main.tab2.percent = 40;
-                $main.tab2.playing = false;
+            if ($main.tab2.audioList[index].playing) {
+                $main.tab2.audioList[index].playing = false;
+                $main.tab2.audioList[index].percent = 0;
+                clearInterval(playInterval);
+                playInterval = null;
             } else {
-                $main.tab2.svgPoints = "60,60 140,60 140,140 60,140";
-                $main.tab2.playing = true;
-                $main.tab2.percent = 80;
+                var playFlag = false;
+                for(i in $main.tab2.audioList){
+                    if($main.tab2.audioList[i].playing){
+                        playFlag = i;
+                        break;
+                    }
+                }
+                if(playFlag!==false){
+                    $main.tab2.audioList[playFlag].playing = false;
+                    $main.tab2.audioList[playFlag].percent = 0;
+                    clearInterval(playInterval);
+                    playInterval = null;
+                }
+                $main.tab2.audioList[index].playing = true;
+                playingAudio = plus.audio.createPlayer('_doc/audio/' + $main.tab2.audioList[index].name);
+                playingAudio.play(function () {
+                    setTimeout(function () {
+                        $main.tab2.audioList[index].playing = false;
+                        $main.tab2.audioList[index].percent = 0;
+                        clearInterval(playInterval);
+                        playInterval = null;
+                    }, 300)
+                }, function (e) {});
+                // 获取总时长
+                var d = playingAudio.getDuration();
+                playInterval = setInterval(function () {
+                    if (!d) {
+                        d = playingAudio.getDuration();
+                    }
+                    var c = playingAudio.getPosition();
+                    if (!c) {
+                        $main.tab2.audioList[index].percent = 1;
+                    } else {
+                        $main.tab2.audioList[index].percent = (parseInt((c / d) * 100)) / 100;
+                    }
+                }, 300);
             }
-
         },
         startRecord: function () {
-            $main.tab2.showModel = true;
+            var playFlag = false;
+            for(i in $main.tab2.audioList){
+            	if($main.tab2.audioList[i].playing){
+            		playFlag = i;
+            		break;
+            	}
+            }
+            if(playFlag!==false){
+            	$main.tab2.audioList[playFlag].playing = false;
+            	$main.tab2.audioList[playFlag].percent = 0;
+            	clearInterval(playInterval);
+            	playInterval = null;
+            }
+            $main.showModel = true;
             recordPlus.record({
                 filename: '_doc/audio/'
             }, function (p) {
                 plus.io.resolveLocalFileSystemURL(p, function (entry) {
-                    entry.getMetadata(function(metadata) {
+                    entry.getMetadata(function (metadata) {
                         entry.time = dateToStr(metadata.modificationTime);
-                        entry.percent = 0;
+                        entry.playing = false;
+                        entry.percent = 0; //当前播放进度 0-1
                         entry.index = $main.tab2.audioList.length;
                         $main.tab2.audioList.push(entry);
-                    }, function(e) {mui.toast('录制完成');});
-                }, function (e) {mui.toast('获取录音信息失败');});
-            }, function (e) {mui.toast('录制失败');});
+                        mui.toast("录制完成");
+                    }, function (e) {
+                        mui.toast('获取录音信息失败');
+                    });
+                }, function (e) {
+                    mui.toast('录音存储失败');
+                });
+            }, function (e) {
+                mui.toast('录制失败');
+            });
             var t = 0;
             recordInterval = setInterval(function () {
                 t++;
@@ -522,16 +581,41 @@ var $main = new Vue({
             }, 1000);
         },
         stopRecord: function () {
-            $main.tab2.showModel = false;
+            $main.showModel = false;
             $main.tab2.recordTime = '00:00:00';
             clearInterval(recordInterval);
             recordInterval = null;
             recordPlus.stop();
         },
-        cleanRecord:function(){
-            gentry.removeRecursively(function() {
-                $main.tab2.audioList = [];
-            }, function(e) {});
+        cleanRecord: function () {
+            mui.confirm("此操作将删除所有录音文件", "清空记录", ["取消", "确定"], function (btn) {
+                if (btn.index == 1) {
+                    gentry.removeRecursively(function () {
+                        $main.tab2.audioList = [];
+                    }, function (e) {});
+                }
+            });
+        },
+        startDownload: function(){
+            downloadPlus.addEventListener( "statechanged", function(task,status){
+            	if(!dtask){return;}
+            	switch(task.state) {
+            		case 1: // 开始
+            			outLine( "开始下载..." );
+            		break;
+            		case 2: // 已连接到服务器
+            			outLine( "链接到服务器..." );
+            		break;
+            		case 3:	// 已接收到数据
+            			outSet( "下载数据更新:" );
+            			outLine( task.downloadedSize+"/"+task.totalSize );
+            		break;
+            		case 4:	// 下载完成
+            			outSet( "下载完成！" );
+            			outLine( task.totalSize );
+            		break;
+            	}
+            } );
         }
     },
     watch: {
@@ -547,29 +631,44 @@ var $main = new Vue({
                     interval = null;
                 }, 100)
             }
-        }
+        },
+        showModel: function (show) {
+            var modal = document.getElementById("modalWrap");
+            if (show) {
+                modal.style.display = "block";
+                setTimeout(function () {
+                    modal.classList.add("active")
+                }, 20)
+            } else {
+                modal.classList.remove("active")
+                modal.style.display = "none";
+            }
+        },
     }
 })
 
 
-function timeToStr(ts){
-	if(isNaN(ts)){
-		return "--:--:--";
-	}
-	var h=parseInt(ts/3600);
-	var m=parseInt((ts%3600)/60);
-	var s=parseInt(ts%60);
-	return (ultZeroize(h)+":"+ultZeroize(m)+":"+ultZeroize(s));
+function timeToStr(ts) {
+    if (isNaN(ts)) {
+        return "--:--:--";
+    }
+    var h = parseInt(ts / 3600);
+    var m = parseInt((ts % 3600) / 60);
+    var s = parseInt(ts % 60);
+    return (ultZeroize(h) + ":" + ultZeroize(m) + ":" + ultZeroize(s));
 };
-function dateToStr(d){
-	return (d.getFullYear()+"-"+ultZeroize(d.getMonth()+1)+"-"+ultZeroize(d.getDate())+" "+ultZeroize(d.getHours())+":"+ultZeroize(d.getMinutes())+":"+ultZeroize(d.getSeconds()));
+
+function dateToStr(d) {
+    return (d.getFullYear() + "-" + ultZeroize(d.getMonth() + 1) + "-" + ultZeroize(d.getDate()) + " " + ultZeroize(d.getHours()) +
+        ":" + ultZeroize(d.getMinutes()) + ":" + ultZeroize(d.getSeconds()));
 };
-function ultZeroize(v,l){
-	var z="";
-	l=l||2;
-	v=String(v);
-	for(var i=0;i<l-v.length;i++){
-		z+="0";
-	}
-	return z+v;
+
+function ultZeroize(v, l) {
+    var z = "";
+    l = l || 2;
+    v = String(v);
+    for (var i = 0; i < l - v.length; i++) {
+        z += "0";
+    }
+    return z + v;
 };
