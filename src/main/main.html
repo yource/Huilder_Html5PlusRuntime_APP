@@ -16,10 +16,14 @@
 </head>
 
 <body>
-    <div class="head">
-        H5 PLUS
-    </div>
     <div id="main">
+        <div class="header">
+            <div class="headerLeft">H5 PLUS</div>
+            <div class="headerRight" @click="openScan">
+                <i class="iconfont icon-yduierweimasaomiao"></i>
+            </div>
+        </div>
+    
         <mt-tab-container v-model="tab">
             <!----- tab1：第一个tab页 ----->
             <mt-tab-container-item id="tab1">
@@ -187,7 +191,27 @@
             </mt-tab-container-item>
 
             <!-- tab3 -->
-            <mt-tab-container-item id="tab3">3</mt-tab-container-item>
+            <mt-tab-container-item id="tab3">
+                <div class="section">
+                    <div class="title">语音输入</div>
+                </div>
+                <div class="section" id="oauth">
+                    <div class="title">第三方登陆</div>
+                </div>
+                <div class="section" id="payment">
+                    <div class="title">支付</div>
+                </div>
+                <div class="section" id="share">
+                	<div class="title">分享</div>
+                </div>
+                <div class="section" id="map">
+                    <div class="title">地图 <span>{{tab3.map.coords}}</span></div>
+                    <div class="sectionBody" id="appMap"></div>
+                    <div class="sectionFoot">
+                        <button type="button" class="mint-button mint-button--primary mint-button--wide" @click="openMap">打开第三方地图</button>
+                    </div>
+                </div>
+            </mt-tab-container-item>
 
             <!-- tab4 -->
             <mt-tab-container-item id="tab4">4</mt-tab-container-item>

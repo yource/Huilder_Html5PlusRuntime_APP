@@ -24,6 +24,9 @@
         "Audio": {
             "description": "音频"
         },
+        "Barcode": {
+            "description": "二维码"
+        },
         "Speech": {
             "description": "语音输入"
         },
@@ -42,6 +45,15 @@
         },
         "Downloader": {
             "description": "文件下载，管理文件下载任务"
+        },
+        "Geolocation": {
+            "description": "位置信息"
+        },
+        "OAuth": {
+            "description": "登录鉴权"
+        },
+        "Payment": {
+            "description": "支付"
         },
 		"UI": {},
 		"Share": {},

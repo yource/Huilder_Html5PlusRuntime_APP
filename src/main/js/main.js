@@ -1,5 +1,6 @@
 // 新闻详情页面窗口对象
 var newsDetailWebview = null;
+var barcode = null;
 // 新闻详情页原生标题
 var titleNView = {
     backgroundColor: '#f7f7f7',
@@ -33,6 +34,11 @@ var recordPlus = null;
 var recordInterval = null;
 // 下载对象
 var downloadPlus = null;
+// 位置对象
+var geolocation = null;
+var myLocation = null;
+//应用内地图
+var appMap = null;
 
 /**
  * tab1页面初始化方法
@@ -344,12 +350,37 @@ function getMetadata(entry) {
     }, function (e) {});
 }
 
+/**
+ * tab3页面初始化方法
+ */
+function init3(){
+    $main.tab3.initFlag = true;
+    // 获取位置信息
+    geolocation = plus.geolocation.getCurrentPosition(function(p){
+        $main.tab3.map.coords=p.coords.latitude+" , "+p.coords.longitude;
+        myLocation = new plus.maps.Point(p.coords.latitude,p.coords.longitude);
+        // 初始化地图
+        map=new plus.maps.Map("appMap",{
+            center: myLocation,
+            zoom:15
+        });
+    }, function(e){
+        $main.tab3.map.coords="获取失败";
+    });
+}
+
 function plusReady() {
     // 监听fire自定义事件
     document.addEventListener('init', function (event) {
         var userId = event.detail.userId;
         var userName = event.detail.userName;
         init1();
+    })
+    
+    // 预加载二维码扫描页面
+    barcode = router.create({
+        id:"barcode",
+        url:".././barcode/barcode.html"
     })
 
     // 预加载新闻详情页
@@ -363,12 +394,8 @@ function plusReady() {
         }, function (dir) {
             gentry = dir;
             updateHistory();
-        }, function (e) {
-            outSet('Get directory "audio" failed: ' + e.message);
-        });
-    }, function (e) {
-        outSet('Resolve "_doc/" failed: ' + e.message);
-    });
+        }, function (e) {});
+    }, function (e) {});
     // 获取录音对象
     recordPlus = plus.audio.getRecorder();
 
@@ -446,6 +473,12 @@ var $main = new Vue({
         },
         bright: 0,
         showModel: false,
+        tab3:{
+            initFlag:false,
+            map:{
+                coords:"正在获取经纬度"
+            }
+        }
     },
     computed: {},
     created: function () {
@@ -469,6 +502,10 @@ var $main = new Vue({
         });
     },
     methods: {
+        openScan:function(){
+            mui.fire(barcode, 'scan');
+            plus.webview.show(barcode, "slide-in-right", 200);
+        },
         bannerClick: function (url) {
             router.openURL(url, "最热音乐圈")
         },
@@ -642,12 +679,20 @@ var $main = new Vue({
             downloadPlus = null;
             $main.tab2.download.status = "wait";
             $main.tab2.download.statusText = "下载已取消";
+        },
+        openMap:function(){
+            var src = new plus.maps.Point(118.786923, 31.824027);
+            // 调用系统地图显示 
+            plus.maps.openSysMap( myLocation, "我的位置", src );
         }
     },
     watch: {
         tab: function (tab) {
             if (tab == "tab2" && !$main.tab2.initFlag) {
                 init2()
+            }
+            if (tab == "tab3" && !$main.tab3.initFlag) {
+            	init3()
             }
         },
         bright: function (bright) {
