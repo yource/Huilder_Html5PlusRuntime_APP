@@ -3,49 +3,75 @@
 
 	<head>
 		<meta charset="utf-8">
-		<meta charset="utf-8"/>
-		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
-		<meta name="misapplication-tap-highlight" content="no"/>
-		<meta name="HandheldFriendly" content="true"/>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta name="misapplication-tap-highlight" content="no" />
+		<meta name="HandheldFriendly" content="true" />
 		<title>首页</title>
 		<link rel="stylesheet" href="libs/mui/mui.min.css">
-		<link rel="stylesheet" href="static/css/style.css">
-		<link rel="stylesheet" href="static/css/index.css">
-		<style type="text/css">
-			.top{
-				background: ;
-			}
-		</style>
+		<link rel="stylesheet" href="libs/iconfont/iconfont.css">
+		<link rel="stylesheet" href="public/css/style.css">
+		<link rel="stylesheet" href="index/index.css">
 	</head>
 	<body>
-		<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-slide-in">
+		<div id="wrap" class="mui-off-canvas-wrap mui-draggable mui-slide-in">
 			<!--侧滑菜单部分-->
-			<aside id="offCanvasSide" class="mui-off-canvas-left">
+			<aside id="leftMenu" class="mui-off-canvas-left">
 				<div class="title" style="margin-bottom: 25px;">侧滑列表示例</div>
 			</aside>
 			<!--主界面部分-->
 			<div class="mui-inner-wrap">
 				<div class="top">
-					
+					<a href="#leftMenu" class="mui-icon iconfont icon-yonghutouxiang mui-pull-left" id="openLeftMenu"></a>
+					<div class="mui-slider">
+						<div class="mui-slider-group mui-slider-loop">
+							<div class="mui-slider-item mui-slider-item-duplicate">
+								222
+							</div>
+							<div class="mui-slider-item">
+								<div class="card">
+									<div class="cardTop">111
+									</div>
+									<div class="cardBottom"></div>
+								</div>
+							</div>
+							<div class="mui-slider-item">
+								<div class="card">
+									<div class="cardTop">222
+									</div>
+									<div class="cardBottom"></div>
+								</div>
+							</div>
+							<div class="mui-slider-item mui-slider-item-duplicate">
+								111
+							</div>
+						</div>
+						<div class="mui-slider-indicator" style="position: static;">
+						    <span class="mui-action mui-action-previous mui-icon mui-icon-back"></span>
+						    <div class="mui-number">
+						        <span>1</span> / 2
+						    </div>
+						    <span class="mui-action mui-action-next mui-icon mui-icon-forward"></span>
+						</div>
+					</div>
 				</div>
 				<!-- 菜单弹出时的遮罩 -->
 				<div class="mui-off-canvas-backdrop"></div>
 			</div>
 		</div>
 		<script src="libs/mui/mui.min.js"></script>
-		<script src="static/js/common.js"></script>
-		<script src="static/js/router.js"></script>
+		<script src="public/js/common.js"></script>
+		<script src="public/js/router.js"></script>
 		<script type="text/javascript">
-			mui.init({
-				statusBarBackground: '#f7f7f7'
+			mui.init();
+			var gallery = mui('.mui-slider');
+			gallery.slider({
+				interval: 2000
 			});
 			mui.plusReady(function() {
-				var state = plus.storage.getItem("state");
 				var curWebview = plus.webview.currentWebview();
-				var offCanvasWrapper = mui('#offCanvasWrapper');
-				document.getElementById("openMenu").onclick = function(){
-					offCanvasWrapper.offCanvas('show');
-				}
+				var state = plus.storage.getItem("state");
+				var offCanvasWrapper = mui('#wrap');
 			})
 		</script>
 	</body>
