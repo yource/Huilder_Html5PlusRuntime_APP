@@ -1,0 +1,50 @@
+/** iconfont字体图标 **/
+
+@font-face {
+	font-family: "iconfont";
+	src: url('iconfont.ttf') format('truetype')
+}
+
+.iconfont {
+	font-family: "iconfont" !important;
+	font-size: 22px;
+	font-style: normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-tuijianliebiao:before { content: "\e63c"; }
+
+.icon-yanjing:before { content: "\e661"; }
+
+.icon-ai54:before { content: "\e6ac"; }
+
+.icon-Password:before { content: "\e62c"; }
+
+.icon-yonghu:before { content: "\e636"; }
+
+.icon-yonghuxinxi:before { content: "\e7df"; }
+
+.icon-yonghutouxiang:before { content: "\e602"; }
+
+.icon-guanbi2:before { content: "\e620"; }
+
+.icon-yanjing-bi:before { content: "\e61e"; }
+
+.icon-icon-test:before { content: "\e60c"; }
+
+.icon-guanbi3:before { content: "\e654"; }
+
+.icon-icon-test1:before { content: "\e603"; }
+
+.icon-yonghuguanli:before { content: "\e613"; }
+
+.icon-yonghu1:before { content: "\e671"; }
+
+.icon-tianjiazujian:before { content: "\e62a"; }
+
+.icon-shezhizujian:before { content: "\e630"; }
+
+.icon-close-eye:before { content: "\e79c"; }
+
+.icon-kuozhan:before { content: "\e612"; }

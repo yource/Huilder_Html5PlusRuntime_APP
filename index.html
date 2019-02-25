@@ -3,27 +3,50 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>启动页</title>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+		<meta name="misapplication-tap-highlight" content="no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<title>首页</title>
+		<link rel="stylesheet" href="libs/mui/mui.min.css">
+		<link rel="stylesheet" href="static/css/style.css">
+		<link rel="stylesheet" href="static/css/index.css">
+		<style type="text/css">
+			.top{
+				background: ;
+			}
+		</style>
 	</head>
+	<body>
+		<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-slide-in">
+			<!--侧滑菜单部分-->
+			<aside id="offCanvasSide" class="mui-off-canvas-left">
+				<div class="title" style="margin-bottom: 25px;">侧滑列表示例</div>
+			</aside>
+			<!--主界面部分-->
+			<div class="mui-inner-wrap">
+				<div class="top">
+					
+				</div>
+				<!-- 菜单弹出时的遮罩 -->
+				<div class="mui-off-canvas-backdrop"></div>
+			</div>
+		</div>
+		<script src="libs/mui/mui.min.js"></script>
 		<script src="static/js/common.js"></script>
 		<script src="static/js/router.js"></script>
 		<script type="text/javascript">
-			if(window.plus) {
-				plusReady();
-			} else {
-				document.addEventListener("plusready", function() {
-					var state = storage.state;
-                    var curWebview = plus.webview.currentWebview();
-					if(state && state.token) {
-						// 有登录信息，进入主页
-						plus.webview.open("page/main/main.html", "main", {"popGesture": "none"});
-					} else {
-						// 进入登录页面
-						plus.webview.open("page/login/login.html", "login", {"popGesture": "none"});
-					}
-                    plus.webview.close("curWebview");
-				}, false);
-			}
+			mui.init({
+				statusBarBackground: '#f7f7f7'
+			});
+			mui.plusReady(function() {
+				var state = plus.storage.getItem("state");
+				var curWebview = plus.webview.currentWebview();
+				var offCanvasWrapper = mui('#offCanvasWrapper');
+				document.getElementById("openMenu").onclick = function(){
+					offCanvasWrapper.offCanvas('show');
+				}
+			})
 		</script>
 	</body>
 
