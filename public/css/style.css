@@ -1,22 +1,96 @@
+html{
+	min-height: 100%;
+	font-size: 14px;
+}
 body {
 	width: 100%;
 	min-height: 100%;
 	margin: 0px;
 	padding: 0px;
 	background: #fff;
-	font-size: 16px;
-	line-height: 24px;
+	font-size: 14px;;
+	line-height: 40px;
+	color: #343335;
+}
+.fc0{
+	color: #000;
+}
+.fc1{
+	color:#1f1f21;
+}
+.fc2{
+	color: #343335;
+}
+.fc3{
+	color: #64646d;
+}
+.fc4{
+	color: #9c9ca2;
+}
+.fc5{
+	color: #c5c5ca;
+}
+.fc{
+	color: #f0f0f1;
+}
+.fc7{
+	color: #fff;
+}
+.bc0{
+	background-color: #000;
+}
+.bc1{
+	background-color:#1f1f21;
+}
+.bc2{
+	background-color: #343335;
+}
+.bc3{
+	background-color: #64646d;
+}
+.bc4{
+	background-color: #9c9ca2;
+}
+.bc5{
+	background-color: #c5c5ca;
+}
+.bc{
+	background-color: #f0f0f1;
+}
+.bc7{
+	background-color: #fff;
+}
+
+.flexWord{
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.flexWord span{
+	transform: scale(0.5);
 }
 
 ::-webkit-input-placeholder {
 	color: #cdcddd;
 	font-size: 15px;
 }
-
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
 ul,li{
 	list-style: none;
 	padding: 0;
 	margin: 0;
+}
+.gap{
+	height: 10px;
+	background:#efefef;
 }
 .mui-toast-container{
     text-align: center;
@@ -84,4 +158,12 @@ ul,li{
 .mui-off-canvas-left, .mui-off-canvas-right{
 	background: #fff;
 	width: 200px;
+}
+.mui-btn-primary{
+	background: #FF5053;
+	border:1px solid #ff5033;
+}
+.mui-btn-blue.mui-active:enabled, .mui-btn-blue:enabled:active, .mui-btn-primary.mui-active:enabled, .mui-btn-primary:enabled:active, input[type=submit].mui-active:enabled, input[type=submit]:enabled:active{
+	border: 1px solid #fb3b1c;
+    background-color: #fb3b1c;
 }

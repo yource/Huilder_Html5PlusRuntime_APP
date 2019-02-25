@@ -10,7 +10,7 @@
 	//首页-底部tabBar
 	router.main = {
 		id: 'main',
-		url: ".././page/main.html",
+		url: "../../page/main.html",
 		aniShow: "zoom-fade-out",
 		duration: 100,
 		styles: {
@@ -20,15 +20,35 @@
 		noReturn: true //不可回退
 	}
 
-	router.newsDetail = {
-		id: "newsDetail",
-		url: ".././page/newsDetail/newsDetail.html",
-		styles: {
-			"popGesture": "hide",
-			"bounce": "vertical",
-			"bounceBackground": "#efeff4"
-		}
+	router.auth = {
+		id: "auth",
+		url: "./page/auth/auth.html"
 	}
+	router.messageList = {
+		id: "messageList",
+		url: "./page/message/messageList.html"
+	}
+	router.bankCard = {
+		id: "bankCard",
+		url: "./page/bankCard/bankCard.html"
+	}
+	router.ious = {
+		id: "ious",
+		url: "./page/ious/ious.html"
+	}
+	router.help = {
+		id: "help",
+		url: "./page/help/help.html"
+	}
+	router.service = {
+		id: "service",
+		url: "./page/service/service.html"
+	}
+	router.setting = {
+		id: "setting",
+		url: "./page/setting/setting.html"
+	}
+	
 
 	//忘记密码
 	router.forgetPassword = {

@@ -1,33 +1,168 @@
+.topBtn{
+	display: -webkit-box;
+	-webkit-box-align:center;
+	-webkit-box-pack: justify;
+}
+.openmenu{
+	font-size: 24px;
+	width: 36px;
+	height: 36px;
+	line-height: 36px;
+	background: rgba(255,255,255,0.85);
+	border-radius: 50%;
+	text-align: center;
+	color: #242424;
+}
+.logo{
+	display: block;
+	width: 120px;
+	margin-right: 10px;
+}
 .top {
 	width: 100%;
 	background: url("./topBG.png") no-repeat;
 	background-size:100% 100%;
-	padding: 15px;
+	padding: 20px;
 }
-#openLeftMenu{
-	font-size: 20px;
-	width: 38px;
-	height: 38px;
-	background: rgba(255,255,255,0.85);
-	border-radius: 50%;
-	text-align: center;
-	line-height: 38px;
-	color: #242424;
-	margin:5px;
+.cardWrap{
+	position: relative;
+	height: 211px;
+	margin-top: 20px;
+	overflow: hidden;
 }
-.top .mui-slider{
-	margin-top: 65px;
+.cardCon{
+	height: 422px;
+	-webkit-transition: -webkit-transform 0.3s;
+	transition: transform 0.3s;
 }
+.cardCon.move{
+	-webkit-transform: translateY(-211px);
+	transform: translateY(-211px);
+}
+
 .card{
-	height: 200px;
+	height: 211px;
 	border-radius: 10px;
 	overflow: hidden;
-	background:rgba(255,255,255,0.8);
-	margin:5px;
 }
 .cardTop{
-	height: 160px;
+	height: 165px;
+	background:rgba(255,255,255,0.9);
+	padding: 20px;
 }
 .cardBottom{
-	height: 40px;
+	height: 45px;
+	margin-top: 1px;
+	background:rgba(255,255,255,0.9);
+	line-height: 45px;
+	padding:0 20px;
 }
+.cardTitle{
+	font-size: 20px;
+	font-weight: bold;
+}
+.bottomTip{
+	display: inline-block;
+}
+.buttomBtn{
+	float: right;
+	color: #FF8100;
+}
+.broadcast{
+	height: 36px;
+	line-height: 36px;
+	padding:0 20px;
+	display: -webkit-box;
+	border-bottom: 1px solid #dedede;
+}
+
+.broadcast p{
+	-webkit-box-flex:1;
+	padding-left: 10px;
+}
+.guide img{
+	width: 100%;
+	display: block;
+}
+.progress{
+	padding-top: 10px;
+	text-align: center;
+}
+.progress p{
+	font-size: 20px;
+}
+.progress img{
+	width: 80%;
+}
+#getKey{
+	width: 80%;
+	position:absolute;
+	bottom:20px;
+	left:10%;
+	font-size: 16px;
+}
+.leftMenu{
+	width: 240px;
+}
+.message{
+	height: 40px;
+	position: relative;
+}
+.message span.icon-message{
+	position: absolute;
+	font-size: 28px;
+	right: 15px;
+	bottom:0;
+}
+.avatar{
+	background: #FF5053;
+	width: 80px;
+	height: 80px;
+	margin: 10px auto 0;
+	text-align: center;
+	border-radius: 50%;
+}
+.avatar .icon-yonghutouxiang{
+	font-size: 36px;
+	color: #fff;
+	line-height: 75px;
+}
+.phoneNumber{
+	text-align: center;
+}
+.renzh{
+	width: 100px;
+	text-align: center;
+	border-radius: 15px;
+	height: 26px;
+	line-height: 26px;
+	border:1px solid #fb5528;
+	color: #fb5528;
+	margin: 0 auto 30px;
+}
+.menu{
+	border-bottom: 1px solid #efefef;
+}
+.menu li{
+	border-top: 1px solid #efefef;
+	padding:0 15px;
+	height: 48px;
+	line-height: 48px;
+	display: -webkit-box;
+	-webkit-box-align: center;
+}
+.menu li span{
+	display: block;
+}
+.menu li .label{
+	-webkit-box-flex:1;
+	padding-left: 10px;
+}
+.menu .mui-icon-arrowright{
+	font-size: 16px;
+	margin-left: 5px;
+}
+.menu .iconfont{
+	font-size: 20px;
+}
+

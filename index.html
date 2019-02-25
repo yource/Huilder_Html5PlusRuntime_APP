@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
 		<meta name="misapplication-tap-highlight" content="no" />
 		<meta name="HandheldFriendly" content="true" />
 		<title>首页</title>
@@ -16,62 +16,145 @@
 	<body>
 		<div id="wrap" class="mui-off-canvas-wrap mui-draggable mui-slide-in">
 			<!--侧滑菜单部分-->
-			<aside id="leftMenu" class="mui-off-canvas-left">
-				<div class="title" style="margin-bottom: 25px;">侧滑列表示例</div>
+			<aside id="leftMenu" class="mui-off-canvas-left leftMenu">
+				<!-- 信息图标 -->
+				<div class="message" id="message">
+					<span class="mui-icon iconfont icon-message fc0"></span>
+				</div>
+				<!-- 头像 -->
+				<div class="avatar">
+					<span class="mui-icon iconfont icon-yonghutouxiang"></span>
+				</div>
+				<!-- 手机号 -->
+				<p class="phoneNumber fc2">18655533530</p>
+				<!-- 认证按钮 -->
+				<div class="renzh" id="renzh">未实名</div>
+				<!-- 导航列表 -->
+				<ul class="menu">
+					<li id="auth">
+						<span class="mui-icon iconfont icon-yishengrenzheng fc0"></span>
+						<span class="label">身份认证</span>
+						<span class="arrow fc4">未完善<i class="mui-icon mui-icon-arrowright"></i></span>
+					</li>
+					<li id="bankCard">
+						<span class="mui-icon iconfont icon-yinhangqia fc0"></span>
+						<span class="label">银行卡</span>
+						<span class="arrow fc4">未绑定<i class="mui-icon mui-icon-arrowright"></i></span>
+					</li>
+					<li id="ious">
+						<span class="mui-icon iconfont icon-jiludanzilishijilu fc0"></span>
+						<span class="label">白条记录</span>
+						<span class="arrow fc4"><i class="mui-icon mui-icon-arrowright"></i></span>
+					</li>
+					<li id="help">
+						<span class="mui-icon iconfont icon-wendang fc0"></span>
+						<span class="label">帮助中心</span>
+						<span class="arrow fc4"><i class="mui-icon mui-icon-arrowright"></i></span>
+					</li>
+					<li id="service">
+						<span class="mui-icon iconfont icon-kefu fc0"></span>
+						<span class="label">在线客服</span>
+						<span class="arrow fc4"><i class="mui-icon mui-icon-arrowright"></i></span>
+					</li>
+					<li id="setting">
+						<span class="mui-icon iconfont icon-shezhi fc0"></span>
+						<span class="label">系统设置</span>
+						<span class="arrow fc4"><i class="mui-icon mui-icon-arrowright"></i></span>
+					</li>
+				</ul>
+				
 			</aside>
 			<!--主界面部分-->
 			<div class="mui-inner-wrap">
+				<!-- 头部区域 -->
 				<div class="top">
-					<a href="#leftMenu" class="mui-icon iconfont icon-yonghutouxiang mui-pull-left" id="openLeftMenu"></a>
-					<div class="mui-slider">
-						<div class="mui-slider-group mui-slider-loop">
-							<div class="mui-slider-item mui-slider-item-duplicate">
-								222
-							</div>
-							<div class="mui-slider-item">
-								<div class="card">
-									<div class="cardTop">111
-									</div>
-									<div class="cardBottom"></div>
+					<!-- 顶部图标 -->
+					<div class="topBtn">
+						<a href="#leftMenu" class="mui-icon iconfont icon-yonghutouxiang openmenu"></a>
+						<img src="index/logo.png" class="logo">
+					</div>
+					<!-- 卡和卡密信息 -->
+					<div class="cardWrap">
+						<div class="cardCon" id="cardCon">
+							<div class="card active">
+								<div class="cardTop">
+									<div class="cardTitle">充值卡</div>
+								</div>
+								<div class="cardBottom">
+									<div class="bottomTip">免息7天</div>
+									<div class="buttomBtn" id="showCard2">查看卡密>></div>
 								</div>
 							</div>
-							<div class="mui-slider-item">
-								<div class="card">
-									<div class="cardTop">222
-									</div>
-									<div class="cardBottom"></div>
+							<div class="card">
+								<div class="cardTop">
+									<div class="cardTitle">充值卡密</div>
+								</div>
+								<div class="cardBottom">
+									<div class="bottomTip">免息7天</div>
+									<div class="buttomBtn" id="showCard1">查看充值卡>></div>
 								</div>
 							</div>
-							<div class="mui-slider-item mui-slider-item-duplicate">
-								111
-							</div>
-						</div>
-						<div class="mui-slider-indicator" style="position: static;">
-						    <span class="mui-action mui-action-previous mui-icon mui-icon-back"></span>
-						    <div class="mui-number">
-						        <span>1</span> / 2
-						    </div>
-						    <span class="mui-action mui-action-next mui-icon mui-icon-forward"></span>
 						</div>
 					</div>
 				</div>
+				<!-- 广播提示 -->
+				<!--div class="broadcast">
+					<span class="mui-icon iconfont icon-laba fc3"></span>
+					<p>谨防上当受骗，谨防上当受骗</p>
+				</div-->
+				<div class="guide">
+					<img src="./index/guide.png">
+				</div>
+				<!-- 新手攻略 -->
+				<div class="gap"></div>
+				<!-- 使用流程 -->
+				<div class="progress">
+					<p>使用流程说明</p>
+					<img src="./index/progress.png">
+				</div>
+				<!-- 按钮 -->
+				<button type="button" class="mui-btn mui-btn-primary" id="getKey">领取卡密</button>
 				<!-- 菜单弹出时的遮罩 -->
 				<div class="mui-off-canvas-backdrop"></div>
 			</div>
 		</div>
 		<script src="libs/mui/mui.min.js"></script>
-		<script src="public/js/common.js"></script>
+		<script src="public/js/util.js"></script>
 		<script src="public/js/router.js"></script>
 		<script type="text/javascript">
 			mui.init();
+			var state;
 			var gallery = mui('.mui-slider');
 			gallery.slider({
-				interval: 2000
+				interval: 0
 			});
+			mui("body").on('tap', '#showCard1', function() {
+				document.getElementById('cardCon').classList.remove('move')
+			})
+			mui("body").on('tap', '#showCard2', function() {
+				document.getElementById('cardCon').classList.add('move')
+			})
+			mui("body").on('tap',"#renzh",function(){
+				router.open(router.auth)
+			})
+			mui("body").on('tap',"#getKey",function(){
+				if(state && state.auth){
+					router.open(router.auth)
+				}else{
+					router.open(router.auth)
+				}
+			})
+			mui("body").on('tap', '.menu li', function() {
+				var page = this.getAttribute("id");
+				router.open(router[page])
+			})
+			mui("body").on('tap', '#message', function() {
+				router.open(router.messageList)
+			})
+
 			mui.plusReady(function() {
 				var curWebview = plus.webview.currentWebview();
-				var state = plus.storage.getItem("state");
-				var offCanvasWrapper = mui('#wrap');
+				state = plus.storage.getItem("state");
 			})
 		</script>
 	</body>
