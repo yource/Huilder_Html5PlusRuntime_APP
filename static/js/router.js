@@ -10,7 +10,7 @@
 	//首页-底部tabBar
 	router.main = {
 		id: 'main',
-		url: ".././main/main.html",
+		url: ".././page/main.html",
 		aniShow: "zoom-fade-out",
 		duration: 100,
 		styles: {
@@ -22,7 +22,7 @@
 
 	router.newsDetail = {
 		id: "newsDetail",
-		url: ".././newsDetail/newsDetail.html",
+		url: ".././page/newsDetail/newsDetail.html",
 		styles: {
 			"popGesture": "hide",
 			"bounce": "vertical",
@@ -33,7 +33,7 @@
 	//忘记密码
 	router.forgetPassword = {
 		id: "forgetPassword",
-		url: ".././login/forget_password.html"
+		url: ".././page/login/forget_password.html"
 	}
 
 	/**
