@@ -3,16 +3,60 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title></title>
+		<title>认证</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link rel="stylesheet" href="../../libs/mui/mui.min.css">
 		<link rel="stylesheet" href="../../libs/iconfont/iconfont.css">
 		<link rel="stylesheet" href="../../public/css/style.css">
-		<link rel="stylesheet" href="./css/message.css">
+		<style type="text/css">
+			ul.list li div.label{
+				font-weight: bold;
+			}
+			.authTip{
+				padding: 30px 20px;
+			}
+			.authTip h3{
+				font-size: 15px;
+			}
+			.authTip p{
+				font-size: 13px;
+				line-height: 20px;
+				margin-top:5px;
+				margin-bottom: 0;
+			}
+		</style>
 	</head>
 
 	<body>
-		auth
+		<header class="mui-bar">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">身份认证</h1>
+		</header>
+		<div class="pageContent">
+			<ul class="list">
+				<li>
+					<div class="label">实名认证</div>
+					<div class="arrow fc4">去认证<i class="mui-icon mui-icon-arrowright"></i></div>
+				</li>
+				<li>
+					<div class="label">运营商认证</div>
+					<div class="arrow fc4">去认证<i class="mui-icon mui-icon-arrowright"></i></div>
+				</li>
+				<li>
+					<div class="label">紧急联系人</div>
+					<div class="arrow fc4">去添加<i class="mui-icon mui-icon-arrowright"></i></div>
+				</li>
+				<li>
+					<div class="label">芝麻认证</div>
+					<div class="arrow fc4">去认证<i class="mui-icon mui-icon-arrowright"></i></div>
+				</li>
+			</ul>
+			<div class="authTip">
+				<h3>温馨提示：</h3>
+				<p>1. 实名认证完成后才能进行其他信息的认证。</p>
+				<p>2. 您填写的身份信息仅用于验证您的身份，未经允许不会向他人透露您的信息。</p>
+			</div>
+		</div>
 		<script src="../../libs/mui/mui.min.js"></script>
 		<script src="../../public/js/util.js"></script>
 		<script src="../../public/js/router.js"></script>

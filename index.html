@@ -102,10 +102,10 @@
 					<span class="mui-icon iconfont icon-laba fc3"></span>
 					<p>谨防上当受骗，谨防上当受骗</p>
 				</div-->
-				<div class="guide">
+				<!-- 新手攻略 -->
+				<div class="guide" id="guide">
 					<img src="./index/guide.png">
 				</div>
-				<!-- 新手攻略 -->
 				<div class="gap"></div>
 				<!-- 使用流程 -->
 				<div class="progress">
@@ -151,7 +151,9 @@
 			mui("body").on('tap', '#message', function() {
 				router.open(router.messageList)
 			})
-
+			mui("body").on('tap', '#guide', function() {
+				router.open(router.help)
+			})
 			mui.plusReady(function() {
 				var curWebview = plus.webview.currentWebview();
 				state = plus.storage.getItem("state");

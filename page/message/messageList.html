@@ -3,16 +3,65 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title></title>
+		<title>消息</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link rel="stylesheet" href="../../libs/mui/mui.min.css">
 		<link rel="stylesheet" href="../../libs/iconfont/iconfont.css">
 		<link rel="stylesheet" href="../../public/css/style.css">
-		<link rel="stylesheet" href="./css/message.css">
 	</head>
 
 	<body>
-		messageList
+		<header class="mui-bar">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">消息</h1>
+		</header>
+		<div class="pageContent">
+			<div class="emptyList"></div>
+			<ul class="listWithPic">
+				<li>
+					<div class="pic bgGreen">
+						<span class="mui-icon iconfont icon-message"></span>
+					</div>
+					<div class="text">
+						<div class="top">
+							<div class="title">借款成功</div>
+							<div class="time fc5">2019-02-08 15:55</div>
+						</div>
+						<div class="bottom fc3">
+							您的50000元借款已下发，请注意查收。
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="pic bgRed">
+						<span class="mui-icon iconfont icon-message"></span>
+					</div>
+					<div class="text">
+						<div class="top">
+							<div class="title">逾期提醒</div>
+							<div class="time fc5">2019-02-08 15:55</div>
+						</div>
+						<div class="bottom fc3">
+							您的50000元借款已下发，请注意查收。
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="pic bgYellow">
+						<span class="mui-icon iconfont icon-message"></span>
+					</div>
+					<div class="text">
+						<div class="top">
+							<div class="title">借款失败</div>
+							<div class="time fc5">2019-02-08 15:55</div>
+						</div>
+						<div class="bottom fc3">
+							您的50000元借款已下发，请注意查收。
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
 		<script src="../../libs/mui/mui.min.js"></script>
 		<script src="../../public/js/util.js"></script>
 		<script src="../../public/js/router.js"></script>

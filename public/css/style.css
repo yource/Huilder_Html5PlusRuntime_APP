@@ -7,7 +7,7 @@ body {
 	min-height: 100%;
 	margin: 0px;
 	padding: 0px;
-	background: #fff;
+	background: #f4f7f9;
 	font-size: 14px;;
 	line-height: 40px;
 	color: #343335;
@@ -60,7 +60,21 @@ body {
 .bc7{
 	background-color: #fff;
 }
-
+.bcBlue{
+	background-color: #5a9fe4;
+}
+.bgGreen{
+	background-color: #38d770;
+}
+.bgYellow1{
+	background-color:#ffa619;
+}
+.bgYellow{
+	background-color: #ff7510;
+}
+.bgRed{
+	background-color:#fe502e;
+}
 .flexWord{
 	text-align: center;
 	display: flex;
@@ -166,4 +180,77 @@ ul,li{
 .mui-btn-blue.mui-active:enabled, .mui-btn-blue:enabled:active, .mui-btn-primary.mui-active:enabled, .mui-btn-primary:enabled:active, input[type=submit].mui-active:enabled, input[type=submit]:enabled:active{
 	border: 1px solid #fb3b1c;
     background-color: #fb3b1c;
+}
+
+.mui-bar{
+	background: #fd7f23;
+	box-shadow:none;
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+	margin-bottom: 10px;
+}
+
+.mui-bar .mui-icon,.mui-bar .mui-title{
+	color: #fff;
+}
+.pageContent{
+	padding-top: 62px;
+}
+ul.listWithPic{
+	background: #fff;
+	border-top: 1px solid rgba(0,0,0,0.06);
+}
+ul.listWithPic li{
+	border-bottom:1px solid rgba(0,0,0,0.06);
+	padding: 10px 15px;
+	display: -webkit-box;
+	-webkit-box-align: center;
+}
+ul.listWithPic li .pic{
+	width: 50px;
+	height:50px;
+	border-radius: 50%;
+	text-align: center;
+}
+ul.listWithPic li .pic .iconfont{
+	color:#fff;
+	font-size: 30px;
+	line-height: 50px;
+}
+ul.listWithPic li .text{
+	-webkit-box-flex:1;
+	margin-left:15px;
+}
+ul.listWithPic li .text .top{
+	line-height: 30px;
+	display: -webkit-box;
+	-webkit-box-pack: justify;
+}
+ul.listWithPic li .text .top .title{
+	-webkit-box-flex: 1;
+	font-size: 15px;
+}
+ul.listWithPic li .text .top .time{
+	font-size: 12px;
+}
+ul.listWithPic li .text .bottom{
+	margin-top: 5px;
+	font-size: 12px;
+	line-height: 18px;
+}
+ul.list{
+	background: #fff;
+	padding-left: 18px;
+}
+ul.list li{
+	border-bottom: 1px solid rgba(0,0,0,0.06);
+	display: -webkit-box;
+	padding-right: 15px;
+	line-height: 55px;
+}
+ul.list li div.label{
+	-webkit-box-flex:1;
+}
+ul.list li div.arrow .mui-icon{
+	font-size: 16px;
+	margin-left:6px;
 }
